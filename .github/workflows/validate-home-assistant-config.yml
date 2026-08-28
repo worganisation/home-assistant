@@ -18,7 +18,13 @@ concurrency:
 jobs:
   get-current-version:
     name: Get Current Version Number
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     outputs:
       version: ${{ steps.current-version.outputs.current-version }}
     steps:
@@ -33,7 +39,13 @@ jobs:
 
   validate-home-assistant-config:
     name: Validate Home Assistant Configuration
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     needs:
       - get-current-version
     strategy:
