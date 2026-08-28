@@ -1,0 +1,50 @@
+---
+alias: /sensor/frigate-detector-watchdog-state-notify-will
+
+id: sensor_frigate_detector_watchdog_state_notify_will
+
+description: Notify Will when the Frigate detector watchdog heartbeat disappears
+
+mode: single
+
+max_exceeded: silent
+
+trigger:
+  - platform: state
+    entity_id: sensor.frigate_detector_watchdog_state
+    to: unavailable
+    for:
+      minutes: 2
+    id: unavailable
+
+  - platform: state
+    entity_id: sensor.frigate_detector_watchdog_state
+    from: unavailable
+    id: restored
+
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: unavailable
+        sequence:
+          - action: script.notify_will
+            continue_on_error: true
+            data:
+              title: Frigate detector watchdog offline
+              message: >-
+                Home Assistant has not received a detector-watchdog heartbeat for four
+                minutes. Automatic detector recovery may be unavailable.
+              notification_id: frigate_detector_watchdog_offline
+              mobile_notification_icon: mdi:heart-off
+              group: frigate-health
+              sticky: true
+              persistent: true
+
+    default:
+      - action: script.notify_will
+        continue_on_error: true
+        data:
+          clear_notification: true
+          notification_id: frigate_detector_watchdog_offline
+          message: clear_notification
