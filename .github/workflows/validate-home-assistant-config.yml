@@ -18,7 +18,13 @@ concurrency:
 jobs:
   get-current-version:
     name: Get Current Version Number
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     outputs:
       version: ${{ steps.current-version.outputs.current-version }}
     steps:
@@ -33,7 +39,13 @@ jobs:
 
   validate-home-assistant-config:
     name: Validate Home Assistant Configuration
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     needs:
       - get-current-version
     strategy:
@@ -83,14 +95,31 @@ jobs:
 
           touch scenes.yaml
 
+      - name: Configure Home Assistant Container Environment
+        run: |
+          # Prevent root-owned bytecode caches in the persistent workspace.
+          echo 'PYTHONDONTWRITEBYTECODE=1' > "${RUNNER_TEMP}/home-assistant.env"
+
+      - name: Configure Python for Error Log Checking
+        if: >-
+          matrix.version == needs.get-current-version.outputs.version ||
+          matrix.version == 'stable'
+        run: |
+          mkdir -p "${RUNNER_TEMP}/bin"
+          ln -s "$(command -v python3)" "${RUNNER_TEMP}/bin/python"
+          echo "${RUNNER_TEMP}/bin" >> "${GITHUB_PATH}"
+
       - name: Validate Configuration
-        uses: worgarside/action-home-assistant@main
+        uses: worgarside/action-home-assistant@2dd460169a029cff37f27b0cf91e88781ad442b1 # main
         with:
           path: .
           secrets: secrets.fake.yaml
           version: ${{ matrix.version }}
+          env_file: ${{ runner.temp }}/home-assistant.env
           catch_error_logs: >-
-            matrix.version == needs.get-current-version.outputs.version ||
-            matrix.version == 'stable'
+            ${{
+              matrix.version == needs.get-current-version.outputs.version ||
+              matrix.version == 'stable'
+            }}
           ignore_error_log_pattern: >-
             failed to setup triggers and has been disabled: Unknown device '[0-9a-f]{32}'
