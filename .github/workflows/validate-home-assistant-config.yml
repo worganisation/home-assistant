@@ -95,12 +95,18 @@ jobs:
 
           touch scenes.yaml
 
+      - name: Configure Home Assistant Container Environment
+        run: |
+          # Prevent root-owned bytecode caches in the persistent workspace.
+          echo 'PYTHONDONTWRITEBYTECODE=1' > "${RUNNER_TEMP}/home-assistant.env"
+
       - name: Validate Configuration
         uses: worgarside/action-home-assistant@2dd460169a029cff37f27b0cf91e88781ad442b1 # main
         with:
           path: .
           secrets: secrets.fake.yaml
           version: ${{ matrix.version }}
+          env_file: ${{ runner.temp }}/home-assistant.env
           catch_error_logs: >-
             matrix.version == needs.get-current-version.outputs.version ||
             matrix.version == 'stable'
