@@ -100,6 +100,14 @@ jobs:
           # Prevent root-owned bytecode caches in the persistent workspace.
           echo 'PYTHONDONTWRITEBYTECODE=1' > "${RUNNER_TEMP}/home-assistant.env"
 
+      - name: Set up Python for Error Log Checking
+        if: >-
+          matrix.version == needs.get-current-version.outputs.version ||
+          matrix.version == 'stable'
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+
       - name: Validate Configuration
         uses: worgarside/action-home-assistant@2dd460169a029cff37f27b0cf91e88781ad442b1 # main
         with:
@@ -108,7 +116,9 @@ jobs:
           version: ${{ matrix.version }}
           env_file: ${{ runner.temp }}/home-assistant.env
           catch_error_logs: >-
-            matrix.version == needs.get-current-version.outputs.version ||
-            matrix.version == 'stable'
+            ${{
+              matrix.version == needs.get-current-version.outputs.version ||
+              matrix.version == 'stable'
+            }}
           ignore_error_log_pattern: >-
             failed to setup triggers and has been disabled: Unknown device '[0-9a-f]{32}'
