@@ -1,0 +1,67 @@
+---
+alias: /sensor/vaultpi-immich-backup-notify-will
+
+id: sensor_vaultpi_immich_backup_notify_will
+
+description: Notify Will when the VaultPi Immich backup fails and clear the alert after recovery
+
+mode: queued
+
+max: 5
+
+max_exceeded: silent
+
+trigger:
+  - platform: state
+    entity_id: sensor.vaultpi_immich_backup_last_failure
+    not_from:
+      - unavailable
+      - unknown
+    not_to:
+      - unavailable
+      - unknown
+    id: failed
+
+  - platform: state
+    entity_id: sensor.vaultpi_immich_backup_last_success
+    not_from:
+      - unavailable
+      - unknown
+    not_to:
+      - unavailable
+      - unknown
+    id: recovered
+
+action:
+  - if: "{{ trigger.id == 'recovered' }}"
+
+    then:
+      - action: script.notify_will
+        continue_on_error: true
+        data:
+          clear_notification: true
+          notification_id: vaultpi_immich_backup_failure
+          message: clear_notification
+
+    else:
+      - delay:
+          seconds: 1
+
+      - action: script.notify_will
+        continue_on_error: true
+        data:
+          title: VaultPi Immich Backup Failed
+          message: >-
+            The nightly Immich backup failed at
+            {{
+              as_timestamp(states('sensor.vaultpi_immich_backup_last_failure'))
+              | timestamp_custom('%d %b %Y at %H:%M', true)
+            }}.
+            Reported error:
+            {{ states('sensor.vaultpi_immich_backup_last_error') }}.
+            Check vaultpi-immich-backup.service on VaultPi for the detailed error.
+          notification_id: vaultpi_immich_backup_failure
+          mobile_notification_icon: mdi:backup-restore
+          group: vaultpi-backups
+          sticky: true
+          persistent: true

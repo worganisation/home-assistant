@@ -2,7 +2,7 @@
 
 ## Automation
 
-<details><summary><h3>Entities (232)</h3></summary>
+<details><summary><h3>Entities (233)</h3></summary>
 
 <details><summary><code>/automation/auto-reload-complete</code></summary>
 
@@ -3025,6 +3025,19 @@ File: [`automation/sensor/spare_room_climate_sensor_temperature/sync_radiator_tr
 - Mode: `single`
 
 File: [`automation/sensor/storage_cc_scratch_qbt_disk_used_percentage_notify_and_clear.yaml`](entities/automation/sensor/storage_cc_scratch_qbt_disk_used_percentage_notify_and_clear.yaml)
+</details>
+
+<details><summary><code>/sensor/vaultpi-immich-backup-notify-will</code></summary>
+
+**Entity ID: `automation.sensor_vaultpi_immich_backup_notify_will`**
+
+> Notify Will when the VaultPi Immich backup fails and clear the alert after recovery
+
+- Alias: /sensor/vaultpi-immich-backup-notify-will
+- ID: `sensor_vaultpi_immich_backup_notify_will`
+- Mode: `queued`
+
+File: [`automation/sensor/vaultpi_immich_backup_notify_will.yaml`](entities/automation/sensor/vaultpi_immich_backup_notify_will.yaml)
 </details>
 
 <details><summary><code>/sensor/vic-s-office-climate-sensor-temperature/sync-radiator-trv</code></summary>
