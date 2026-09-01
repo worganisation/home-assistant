@@ -5,8 +5,8 @@ id: switch_lava_lamp_on_too_long
 
 description: >-
   Notify Will when the lava lamp has been on for 4 hours, or after it has been on for an hour
-  while Frigate has continuously reported no person in the lounge. Repeat the vacancy reminder
-  every hour until the lamp is turned off or a person returns.
+  while the lounge presence sensor has continuously reported the room empty. Repeat the vacancy
+  reminder every hour until the lamp is turned off or the lounge becomes occupied.
 
 mode: parallel
 
@@ -27,7 +27,7 @@ trigger:
     value_template: >-
       {{
         is_state('switch.lava_lamp', 'on') and
-        is_state('binary_sensor.lounge_person_occupancy', 'off')
+        is_state('binary_sensor.lounge_occupancy', 'off')
       }}
     for:
       hours: 1
@@ -39,7 +39,7 @@ trigger:
 
   - platform: state
     id: lounge_occupied
-    entity_id: binary_sensor.lounge_person_occupancy
+    entity_id: binary_sensor.lounge_occupancy
     to: "on"
 
 action:
@@ -51,7 +51,7 @@ action:
           - condition: not
             conditions:
               - condition: state
-                entity_id: binary_sensor.lounge_person_occupancy
+                entity_id: binary_sensor.lounge_occupancy
                 state: "off"
                 for:
                   hours: 1
@@ -79,7 +79,7 @@ action:
                   state: "on"
 
                 - condition: state
-                  entity_id: binary_sensor.lounge_person_occupancy
+                  entity_id: binary_sensor.lounge_occupancy
                   state: "off"
 
               sequence:
@@ -87,7 +87,7 @@ action:
                     unoccupied_hours: >-
                       {% set joint_start = [
                         as_timestamp(states.switch.lava_lamp.last_changed),
-                        as_timestamp(states.binary_sensor.lounge_person_occupancy.last_changed)
+                        as_timestamp(states.binary_sensor.lounge_occupancy.last_changed)
                       ] | max %}
                       {{ ((as_timestamp(now()) - joint_start) / 3600) | int }}
 
@@ -107,7 +107,7 @@ action:
                       to: "off"
 
                     - platform: state
-                      entity_id: binary_sensor.lounge_person_occupancy
+                      entity_id: binary_sensor.lounge_occupancy
                       to: "on"
                   timeout:
                     hours: 1

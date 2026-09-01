@@ -3283,7 +3283,7 @@ File: [`automation/switch/hot_water/proximity/on.yaml`](entities/automation/swit
 
 **Entity ID: `automation.switch_lava_lamp_on_too_long`**
 
-> Notify Will when the lava lamp has been on for 4 hours, or after it has been on for an hour while Frigate has continuously reported no person in the lounge. Repeat the vacancy reminder every hour until the lamp is turned off or a person returns.
+> Notify Will when the lava lamp has been on for 4 hours, or after it has been on for an hour while the lounge presence sensor has continuously reported the room empty. Repeat the vacancy reminder every hour until the lamp is turned off or the lounge becomes occupied.
 
 - Alias: /switch/lava-lamp/on-too-long
 - ID: `switch_lava_lamp_on_too_long`
