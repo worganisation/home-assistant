@@ -52,7 +52,7 @@ hooks-update:
 # Run Home Assistant validation locally through act
 ha-validate event="pull_request":
     command -v act >/dev/null || { echo "Install act to run Home Assistant validation locally."; exit 1; }
-    act "{{ event }}" -W .github/workflows/validate_home_assistant_config.yml
+    act "{{ event }}" -W .github/workflows/validate-home-assistant-config.yml
 
 # Run the Home Assistant colour generator
 colors:

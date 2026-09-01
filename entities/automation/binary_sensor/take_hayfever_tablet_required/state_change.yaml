@@ -1,0 +1,71 @@
+---
+alias: /binary-sensor/take-hayfever-tablet-required/state-change
+
+id: binary_sensor_take_hayfever_tablet_required_state_change
+
+description: Notify Will when pollen conditions require a tablet and clear on recovery
+
+mode: single
+
+max_exceeded: silent
+
+trigger:
+  - platform: state
+    entity_id: binary_sensor.take_hayfever_tablet_required
+    to: "on"
+    id: required
+
+  - platform: time
+    at: "08:00:00"
+    id: daily_reminder
+
+  - platform: state
+    entity_id: binary_sensor.take_hayfever_tablet_required
+    to: "off"
+    id: clear
+
+action:
+  - if:
+      - condition: trigger
+        id: clear
+    then:
+      - action: script.notify_will
+        continue_on_error: true
+        data:
+          clear_notification: true
+          notification_id: hayfever_tablet_required
+          message: clear_notification
+    else:
+      - condition: state
+        entity_id: binary_sensor.take_hayfever_tablet_required
+        state: "on"
+
+      - variables:
+          reason: >-
+            {{ state_attr('binary_sensor.take_hayfever_tablet_required', 'reason')
+              | default('unknown', true) }}
+          max_upi: >-
+            {{ state_attr('binary_sensor.take_hayfever_tablet_required', 'max_upi')
+              | default('unknown', true) }}
+          threshold: >-
+            {{ state_attr('binary_sensor.take_hayfever_tablet_required', 'threshold')
+              | default('unknown', true) }}
+
+      - action: script.notify_will
+        continue_on_error: true
+        data:
+          title: >-
+            {{ 'Hayfever Tablet Reminder'
+              if reason == 'above_threshold'
+              else 'Hayfever Forecast Unavailable' }}
+          message: >-
+            {% if reason == 'above_threshold' %}
+              Forecast pollen reaches {{ max_upi }} UPI, above your
+              {{ threshold }} UPI threshold. Take a hayfever tablet.
+            {% else %}
+              The pollen forecast is not trustworthy ({{ reason }}).
+              Treat a tablet as required until data recovers.
+            {% endif %}
+          notification_id: hayfever_tablet_required
+          mobile_notification_icon: mdi:pill
+          sticky: true
