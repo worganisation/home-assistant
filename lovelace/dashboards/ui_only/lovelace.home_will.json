@@ -9156,6 +9156,102 @@
                   "icon_color": "#7f19e5"
                 }
               ]
+            },
+            {
+              "type": "grid",
+              "column_span": 2,
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Pollen Forecast",
+                  "heading_style": "title",
+                  "icon": "mdi:flower-pollen",
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  },
+                  "badges": [
+                    {
+                      "type": "entity",
+                      "entity": "sensor.google_pollen_forecast",
+                      "show_state": true
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "sensor.pollen_forecast_5_day_max",
+                      "show_state": true
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "input_number.hayfever_pollen_threshold",
+                      "show_state": true
+                    }
+                  ]
+                },
+                {
+                  "type": "gauge",
+                  "entity": "sensor.pollen_forecast_5_day_max",
+                  "name": "Five-day maximum",
+                  "min": 0,
+                  "max": 5,
+                  "needle": true,
+                  "severity": [
+                    {
+                      "value": 0,
+                      "color": "green"
+                    },
+                    {
+                      "value": 2,
+                      "color": "yellow"
+                    },
+                    {
+                      "value": 3,
+                      "color": "orange"
+                    },
+                    {
+                      "value": 4,
+                      "color": "red"
+                    },
+                    {
+                      "value": 5,
+                      "color": "purple"
+                    }
+                  ],
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": 3
+                  }
+                },
+                {
+                  "type": "tile",
+                  "entity": "input_number.hayfever_pollen_threshold",
+                  "name": "Hay-fever alert threshold",
+                  "icon": "mdi:flower-pollen-outline",
+                  "features": [
+                    {
+                      "type": "numeric-input",
+                      "style": "slider"
+                    }
+                  ],
+                  "features_position": "bottom",
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": 3
+                  }
+                },
+                {
+                  "type": "markdown",
+                  "title": "Five-day forecast",
+                  "entity_id": [
+                    "sensor.google_pollen_forecast"
+                  ],
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  },
+                  "content": "{% set days = state_attr('sensor.google_pollen_forecast', 'dailyInfo') or [] %}\n| Date | Grass | Tree | Weed |\n|:--|:--|:--|:--|\n{% for day in days %}\n  {% set levels = namespace(grass='\u2014', tree='\u2014', weed='\u2014') %}\n  {% for item in day.get('pollenTypeInfo', []) %}\n    {% set index = item.get('indexInfo', {}) %}\n    {% set value = index.get('value') %}\n    {% set category = index.get('category', '') %}\n    {% set label = '\u2014' if value is none else value ~ ' \u00b7 ' ~ category %}\n    {% if item.get('code') == 'GRASS' %}\n      {% set levels.grass = label %}\n    {% elif item.get('code') == 'TREE' %}\n      {% set levels.tree = label %}\n    {% elif item.get('code') == 'WEED' %}\n      {% set levels.weed = label %}\n    {% endif %}\n  {% endfor %}\n  {% set date = day.get('date', {}) %}\n| {{ '%02d/%02d' | format(date.get('day', 0), date.get('month', 0)) }} | {{ levels.grass }} | {{ levels.tree }} | {{ levels.weed }} |\n{% endfor %}"
+                }
+              ]
             }
           ],
           "badges": [
