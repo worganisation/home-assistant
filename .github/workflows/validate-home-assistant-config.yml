@@ -10,6 +10,9 @@ on:
       - opened
       - reopened
       - synchronize
+  schedule:
+    - cron: '30 3 * * *'
+  workflow_dispatch:
 
 concurrency:
   group: validate-home-assistant-config-${{ github.event.pull_request.number || github.sha }}
@@ -26,6 +29,7 @@ jobs:
       - iac
       - opentofu
     outputs:
+      matrix: ${{ steps.current-version.outputs.matrix }}
       version: ${{ steps.current-version.outputs.current-version }}
     steps:
       - name: Clone Repo
@@ -34,8 +38,27 @@ jobs:
       - name: Get Current Version from .HA_VERSION
         id: current-version
         run: |
-          HA_VERSION=$(<.HA_VERSION)
-          echo "current-version=$HA_VERSION" >> "${GITHUB_OUTPUT}"
+          current_version=$(<.HA_VERSION)
+
+          if [[ ! "$current_version" =~ ^[0-9]{4}\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid Home Assistant version: $current_version" >&2
+            exit 1
+          fi
+
+          if [[ "$GITHUB_EVENT_NAME" == 'schedule' ]] ||
+            [[ "$GITHUB_EVENT_NAME" == 'workflow_dispatch' ]]
+          then
+            versions=$(printf \
+              '{"version":["stable","beta","dev","%s"]}' \
+              "$current_version")
+          else
+            versions=$(printf \
+              '{"version":["stable","%s"]}' \
+              "$current_version")
+          fi
+
+          echo "current-version=$current_version" >> "$GITHUB_OUTPUT"
+          echo "matrix=$versions" >> "$GITHUB_OUTPUT"
 
   validate-home-assistant-config:
     name: Validate Home Assistant Configuration
@@ -50,12 +73,8 @@ jobs:
       - get-current-version
     strategy:
       fail-fast: false
-      matrix:
-        version:
-          - stable
-          - beta
-          - dev
-          - ${{ needs.get-current-version.outputs.version }}
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.get-current-version.outputs.matrix) }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

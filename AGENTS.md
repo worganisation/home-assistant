@@ -271,10 +271,13 @@ CI runs:
 
 - prek hooks for formatting, linting, entity validation, actionlint, and
   basedpyright;
-- Home Assistant configuration checks against stable, beta, dev, and the
-  version pinned in `.HA_VERSION`.
+- Home Assistant configuration checks against stable and the version pinned in
+  `.HA_VERSION` for pull requests and main-branch pushes;
+- nightly and manually dispatched Home Assistant configuration checks against
+  stable, beta, dev, and the pinned version.
 
-Stable and pinned-version failures are blocking. Beta and dev results are
+The configuration-check matrix runs at most two jobs concurrently. Stable and
+pinned-version failures are blocking. Beta and dev scheduled results are
 informational. Run `just ci` before handing off substantial changes.
 
 Pull request titles and commits use Conventional Commits. Squash-merged PR
