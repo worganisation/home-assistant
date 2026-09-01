@@ -9193,7 +9193,9 @@
                     "rows": "auto"
                   },
                   "card_mod": {
-                    "style": "ha-markdown {\n  padding: 12px 16px 16px !important;\n}\ntable {\n  width: 100%;\n  table-layout: fixed;\n  margin: 0;\n}\nth, td {\n  padding: 7px 8px !important;\n  text-align: center !important;\n}\nth:first-child, td:first-child {\n  width: 18%;\n  text-align: left !important;\n}"
+                    "style": {
+                      "ha-markdown$": "ha-markdown-element { width: 100%; } table { width: 100%; table-layout: fixed; margin: 0; } th, td { padding: 7px 8px; text-align: center; } th:first-child, td:first-child { width: 18%; text-align: left; }"
+                    }
                   }
                 }
               ]
