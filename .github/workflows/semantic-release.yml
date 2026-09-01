@@ -32,7 +32,7 @@ jobs:
     if: >-
       github.event_name != 'push' ||
       !startsWith(github.event.head_commit.message, 'chore(release):')
-    uses: worganisation/github-config-files/.github/workflows/__semantic-release.yml@0.8.3
+    uses: worganisation/github-config-files/.github/workflows/__semantic-release.yml@0.8.4
     with:
       python-version: '3.12'
       force-deployment: ${{ inputs.force-deployment != 'auto' && inputs.force-deployment || '' }}
