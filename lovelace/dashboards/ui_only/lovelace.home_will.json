@@ -10207,7 +10207,7 @@
                     },
                     {
                       "type": "entity",
-                      "entity": "sensor.will_mood_summary",
+                      "entity": "select.will_mood_today",
                       "show_state": true
                     }
                   ]
@@ -11190,7 +11190,7 @@
                 },
                 {
                   "type": "custom:mushroom-template-card",
-                  "primary": "{{ states('sensor.will_mood_streak') | int(0) }} days",
+                  "primary": "{% set n = states('sensor.will_mood_streak') | int(0) %}{{ n }} day{{ '' if n == 1 else 's' }}",
                   "secondary": "Current streak",
                   "icon": "mdi:fire",
                   "color": "deep-orange",
@@ -11202,7 +11202,7 @@
                 },
                 {
                   "type": "custom:mushroom-template-card",
-                  "primary": "{{ state_attr('sensor.will_mood_streak', 'longest_streak') | int(0) }} days",
+                  "primary": "{% set n = state_attr('sensor.will_mood_streak', 'longest_streak') | int(0) %}{{ n }} day{{ '' if n == 1 else 's' }}",
                   "secondary": "Longest streak",
                   "icon": "mdi:trophy-outline",
                   "color": "amber",
@@ -11598,32 +11598,7 @@
               ]
             }
           ],
-          "badges": [
-            {
-              "type": "entity",
-              "entity": "switch.will_mood_context_prompts",
-              "show_name": true,
-              "show_state": false,
-              "tap_action": {
-                "action": "toggle"
-              },
-              "hold_action": {
-                "action": "more-info"
-              }
-            },
-            {
-              "type": "entity",
-              "entity": "switch.will_mood_reminders",
-              "show_name": true,
-              "show_state": false,
-              "tap_action": {
-                "action": "toggle"
-              },
-              "hold_action": {
-                "action": "more-info"
-              }
-            }
-          ]
+          "badges": []
         },
         {
           "type": "sections",
