@@ -1,0 +1,30 @@
+---
+alias: /sensor/student-loan-balance/notify-will
+
+id: sensor_student_loan_balance_notify_will
+
+description: Notify Will when the student loan balance changes
+
+mode: single
+
+trigger:
+  - trigger: state
+    entity_id: sensor.student_loan_balance
+    not_from:
+      - unknown
+      - unavailable
+    not_to:
+      - unknown
+      - unavailable
+
+action:
+  - action: script.notify_will
+    data:
+      title: Student Loan Balance Changed
+      message: >-
+        Student loan balance changed from
+        £{{ "{:,.2f}".format(trigger.from_state.state | float(0)) }} to
+        £{{ "{:,.2f}".format(trigger.to_state.state | float(0)) }}.
+      notification_id: student_loan_balance_changed
+      mobile_notification_icon: mdi:school-outline
+      url: /home-will/will
