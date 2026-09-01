@@ -7,20 +7,20 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      force_release:
-        description: Force a release level or detect it from commits
-        required: true
-        default: none
+      force-deployment:
+        description: >-
+          Version component to force, or auto to use semantic commit parsing.
+        required: false
         type: choice
+        default: auto
         options:
-          - none
-          - prerelease
+          - auto
           - patch
           - minor
           - major
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: semantic-release
@@ -32,47 +32,8 @@ jobs:
     if: >-
       github.event_name != 'push' ||
       !startsWith(github.event.head_commit.message, 'chore(release):')
-    environment: production
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    permissions:
-      contents: write
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          # Required so semantic-release can push with the deploy key.
-          persist-credentials: true
-          ref: ${{ github.ref }}
-          ssh-key: ${{ secrets.RELEASE_DEPLOY_KEY }}
-
-      - name: Release
-        id: release
-        # yamllint disable-line rule:line-length
-        uses: python-semantic-release/python-semantic-release@9a026e9303981c866c3425723009becb2437c757 # v10.6.2
-        with:
-          github_token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-          git_committer_name: worgarside-dev
-          git_committer_email: worgarside.dev@gmail.com
-          config_file: pyproject.toml
-          force: >-
-            ${{
-              inputs.force_release != 'none' &&
-              inputs.force_release ||
-              ''
-            }}
-          strict: true
-          verbosity: 2
-
-      - name: Summarize release
-        if: steps.release.outputs.released == 'true'
-        env:
-          RELEASE_LINK: ${{ steps.release.outputs.link }}
-          RELEASE_TAG: ${{ steps.release.outputs.tag }}
-        run: |
-          {
-            echo "## Released ${RELEASE_TAG}"
-            echo
-            echo "${RELEASE_LINK}"
-          } >> "$GITHUB_STEP_SUMMARY"
+    uses: worgarside/github-config-files/.github/workflows/__semantic-release.yml@0.8.1
+    with:
+      python-version: '3.12'
+      force-deployment: ${{ inputs.force-deployment != 'auto' && inputs.force-deployment || '' }}
+    secrets: inherit
