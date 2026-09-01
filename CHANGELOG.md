@@ -2,6 +2,43 @@
 
 <!-- version list -->
 
+## v3.33.0 (2026-09-01)
+
+### Bug Fixes
+
+- **binary-sensor**: Retain seated basement presence
+  ([#2852](https://github.com/worganisation/home-assistant/pull/2852),
+  [`27b6b7e`](https://github.com/worganisation/home-assistant/commit/27b6b7e0a89bc0aae16a36b06502e15b6c7bb24c))
+
+- **cursor**: Forward account metadata from webhook
+  ([#2876](https://github.com/worganisation/home-assistant/pull/2876),
+  [`7adb5ca`](https://github.com/worganisation/home-assistant/commit/7adb5cad955bce39ddd9b48071a07280e8f61d06))
+
+### Chores
+
+- **deps**: Bump python-semantic-release/python-semantic-release
+  ([#2868](https://github.com/worganisation/home-assistant/pull/2868),
+  [`213a5de`](https://github.com/worganisation/home-assistant/commit/213a5dee93899cad41672c0db5fdfc40e2280b7b))
+
+- **sync**: Pin github-config-files workflows to 0.7.3
+  ([#2856](https://github.com/worganisation/home-assistant/pull/2856),
+  [`0d1848a`](https://github.com/worganisation/home-assistant/commit/0d1848a0c534ae22968f76a0915d9eb02afe9ab3))
+
+### Features
+
+- Add GitHub Actions runner telemetry
+  ([#2854](https://github.com/worganisation/home-assistant/pull/2854),
+  [`f676fb5`](https://github.com/worganisation/home-assistant/commit/f676fb51b1696cd18319f4a3590cc211c0a300ca))
+
+- Introduce pollen tracking and alert system
+  ([#2837](https://github.com/worganisation/home-assistant/pull/2837),
+  [`aaf75f5`](https://github.com/worganisation/home-assistant/commit/aaf75f54873bc9119634e22c206acf63d5996859))
+
+- **camera**: Notify on Frigate detector recovery
+  ([#2845](https://github.com/worganisation/home-assistant/pull/2845),
+  [`bd410be`](https://github.com/worganisation/home-assistant/commit/bd410be886d2a32f8efe068a4d8e727a0eee8940))
+
+
 ## v3.32.0 (2026-08-20)
 
 ### Bug Fixes
