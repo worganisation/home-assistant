@@ -2,6 +2,35 @@
 
 <!-- version list -->
 
+## v3.34.0 (2026-09-01)
+
+### Bug Fixes
+
+- **cursor**: Remove legacy single-account templates
+  ([#2881](https://github.com/worganisation/home-assistant/pull/2881),
+  [`538bb62`](https://github.com/worganisation/home-assistant/commit/538bb62da47e4daf44627d88591783998d7df6c8))
+
+### Continuous Integration
+
+- Reduce self-hosted runner contention
+  ([#2884](https://github.com/worganisation/home-assistant/pull/2884),
+  [`82390c3`](https://github.com/worganisation/home-assistant/commit/82390c3daf3e061f5297b81c8b692a4c38a592c0))
+
+- Reuse shared semantic release workflow
+  ([#2880](https://github.com/worganisation/home-assistant/pull/2880),
+  [`6dfb8d0`](https://github.com/worganisation/home-assistant/commit/6dfb8d0ffbe15401ec45be1075b88b5a0b93c2da))
+
+### Features
+
+- Notify on student loan balance changes
+  ([#2883](https://github.com/worganisation/home-assistant/pull/2883),
+  [`7fa2139`](https://github.com/worganisation/home-assistant/commit/7fa2139a437b33da4347921d98a3ba0d80c12aa8))
+
+- **automation**: Alert on extended lava lamp use
+  ([#2882](https://github.com/worganisation/home-assistant/pull/2882),
+  [`d5e3616`](https://github.com/worganisation/home-assistant/commit/d5e3616516db57a8597b1784f0f09e674917ebf3))
+
+
 ## v3.33.0 (2026-09-01)
 
 ### Bug Fixes
