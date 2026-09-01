@@ -8678,7 +8678,7 @@ File: [`shell_command/toggle_pr_label.yaml`](entities/shell_command/toggle_pr_la
 
 ## Template
 
-<details><summary><h3>Entities (111)</h3></summary>
+<details><summary><h3>Entities (107)</h3></summary>
 
 <details><summary><strong>Bank Holiday</strong></summary>
 
@@ -9246,45 +9246,6 @@ File: [`template/sensor/charging_hub_load_power.yaml`](entities/template/sensor/
 mdi:clock-time-{{ hours[this.state | int(12) - 1] }}-outline
 ```
 File: [`template/sensor/current_hour.yaml`](entities/template/sensor/current_hour.yaml)
-</details>
-
-<details><summary><strong>Cursor Cycle Days Remaining</strong></summary>
-
-**Entity ID: `sensor.cursor_cycle_days_remaining`**
-
-- Icon: [`mdi:calendar-clock`](https://pictogrammers.com/library/mdi/icon/calendar-clock/)
-- Unit Of Measurement: `d`
-
-File: [`template/sensor/cursor/cursor_cycle_days_remaining.yaml`](entities/template/sensor/cursor/cursor_cycle_days_remaining.yaml)
-</details>
-
-<details><summary><strong>Cursor Cycle Percent Elapsed</strong></summary>
-
-**Entity ID: `sensor.cursor_cycle_percent_elapsed`**
-
-- Icon: [`mdi:progress-clock`](https://pictogrammers.com/library/mdi/icon/progress-clock/)
-- Unit Of Measurement: %
-
-File: [`template/sensor/cursor/cursor_cycle_percent_elapsed.yaml`](entities/template/sensor/cursor/cursor_cycle_percent_elapsed.yaml)
-</details>
-
-<details><summary><strong>Cursor Projected Cycle Usage</strong></summary>
-
-**Entity ID: `sensor.cursor_projected_cycle_usage`**
-
-- Icon: [`mdi:chart-timeline-variant-shimmer`](https://pictogrammers.com/library/mdi/icon/chart-timeline-variant-shimmer/)
-- Unit Of Measurement: %
-
-File: [`template/sensor/cursor/cursor_projected_cycle_usage.yaml`](entities/template/sensor/cursor/cursor_projected_cycle_usage.yaml)
-</details>
-
-<details><summary><strong>Cursor Usage Pace</strong></summary>
-
-**Entity ID: `sensor.cursor_usage_pace`**
-
-- Icon: [`mdi:speedometer`](https://pictogrammers.com/library/mdi/icon/speedometer/)
-
-File: [`template/sensor/cursor/cursor_usage_pace.yaml`](entities/template/sensor/cursor/cursor_usage_pace.yaml)
 </details>
 
 <details><summary><strong>Dining Area Bayesian Presence Probability</strong></summary>
