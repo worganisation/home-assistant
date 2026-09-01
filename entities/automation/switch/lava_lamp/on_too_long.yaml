@@ -63,6 +63,9 @@ action:
               notification_id: lava_lamp_on_too_long
               mobile_notification_icon: mdi:lava-lamp
               group: lava-lamp
+              actions:
+                - action: LAVA_LAMP_TURN_OFF
+                  title: Turn Lamp Off
 
       - alias: Remind hourly while the lounge remains vacant
         conditions: "{{ trigger.id == 'unoccupied_one_hour' }}"
@@ -100,6 +103,9 @@ action:
                     notification_id: lava_lamp_on_while_unoccupied
                     mobile_notification_icon: mdi:lava-lamp
                     group: lava-lamp
+                    actions:
+                      - action: LAVA_LAMP_TURN_OFF
+                        title: Turn Lamp Off
 
                 - wait_for_trigger:
                     - platform: state

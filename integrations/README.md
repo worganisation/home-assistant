@@ -2,7 +2,7 @@
 
 ## Automation
 
-<details><summary><h3>Entities (237)</h3></summary>
+<details><summary><h3>Entities (238)</h3></summary>
 
 <details><summary><code>/automation/auto-reload-complete</code></summary>
 
@@ -1701,6 +1701,19 @@ File: [`automation/mobile_app/notification_action/central_heating_turn_off.yaml`
 - Mode: `single`
 
 File: [`automation/mobile_app/notification_action/holiday_mode_turn_on.yaml`](entities/automation/mobile_app/notification_action/holiday_mode_turn_on.yaml)
+</details>
+
+<details><summary><code>/mobile-app/notification-action/lava-lamp-turn-off</code></summary>
+
+**Entity ID: `automation.mobile_app_notification_action_lava_lamp_turn_off`**
+
+> Turn off the lounge lava lamp from its notification action
+
+- Alias: /mobile-app/notification-action/lava-lamp-turn-off
+- ID: `mobile_app_notification_action_lava_lamp_turn_off`
+- Mode: `single`
+
+File: [`automation/mobile_app/notification_action/lava_lamp_turn_off.yaml`](entities/automation/mobile_app/notification_action/lava_lamp_turn_off.yaml)
 </details>
 
 <details><summary><code>/mobile-app/notification-action/restart-frigate-lxc</code></summary>
