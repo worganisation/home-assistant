@@ -23,8 +23,8 @@ action:
       title: Student Loan Balance Changed
       message: >-
         Student loan balance changed from
-        £{{ "%.2f" | format(trigger.from_state.state | float) }} to
-        £{{ "%.2f" | format(trigger.to_state.state | float) }}.
+        £{{ "{:,.2f}".format(trigger.from_state.state | float(0)) }} to
+        £{{ "{:,.2f}".format(trigger.to_state.state | float(0)) }}.
       notification_id: student_loan_balance_changed
       mobile_notification_icon: mdi:school-outline
       url: /home-will/will
