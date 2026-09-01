@@ -1,0 +1,14 @@
+---
+expire_after: 120
+
+icon: mdi:cctv
+
+json_attributes_topic: frigate/watchdog/detector/state
+
+name: Frigate Detector Watchdog State
+
+state_topic: frigate/watchdog/detector/state
+
+unique_id: frigate_detector_watchdog_state
+
+value_template: "{{ value_json.state }}"
