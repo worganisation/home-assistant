@@ -13,25 +13,8 @@ trigger:
     local_only: true
 
 action:
-  - if: >-
-      {{
-        trigger.json is mapping
-        and trigger.json.get("token", "") is string
-        and trigger.json.get("token", "") | length > 0
-      }}
-    then:
-      - if: >-
-          {{
-            trigger.json.get("version") == 1
-            and trigger.json.get("account") is mapping
-          }}
-        then:
-          - event: cursor_session_token
-            event_data:
-              version: "{{ trigger.json['version'] }}"
-              token: "{{ trigger.json['token'] }}"
-              account: "{{ trigger.json['account'] }}"
-        else:
-          - event: cursor_session_token
-            event_data:
-              token: "{{ trigger.json['token'] }}"
+  - event: cursor_session_token
+    event_data:
+      version: "{{ trigger.json['version'] }}"
+      token: "{{ trigger.json['token'] }}"
+      account: "{{ trigger.json['account'] }}"
