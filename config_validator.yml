@@ -43,18 +43,6 @@ packages:
           case: snake
           separator: _
 
-  binary_sensor:
-    documentation:
-      id:
-        - unique_id
-        - __file__
-      extra:
-        - platform
-
-    validation:
-      should_match_filename:
-        - name
-
   command_line:
     documentation:
       name: $.sensor.name
