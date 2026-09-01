@@ -13470,24 +13470,24 @@
               "cards": [
                 {
                   "type": "heading",
-                  "heading": "Cursor Ultra",
+                  "heading": "Cursor Ultra \u2014 Personal",
                   "icon": "mdi:cursor-default-click",
                   "badges": [
                     {
                       "type": "entity",
-                      "entity": "sensor.cursor_usage_status",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_usage_status",
                       "show_state": true
                     },
                     {
                       "type": "entity",
-                      "entity": "sensor.cursor_cycle_days_remaining",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_cycle_days_remaining",
                       "show_state": true
                     }
                   ]
                 },
                 {
                   "type": "gauge",
-                  "entity": "sensor.cursor_total_usage_percent",
+                  "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_total_percent_used",
                   "min": 0,
                   "max": 100,
                   "needle": true,
@@ -13517,7 +13517,7 @@
                   "cards": [
                     {
                       "type": "custom:mushroom-entity-card",
-                      "entity": "sensor.cursor_included_usage_used",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_included_usage_used",
                       "name": "Used",
                       "icon": "mdi:currency-usd",
                       "icon_color": "orange",
@@ -13526,7 +13526,7 @@
                     },
                     {
                       "type": "custom:mushroom-entity-card",
-                      "entity": "sensor.cursor_included_usage_remaining",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_included_usage_remaining",
                       "name": "Remaining",
                       "icon": "mdi:currency-usd-off",
                       "icon_color": "green",
@@ -13535,7 +13535,7 @@
                     },
                     {
                       "type": "custom:mushroom-entity-card",
-                      "entity": "sensor.cursor_usage_pace",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_usage_pace",
                       "name": "Pace",
                       "icon": "mdi:speedometer",
                       "icon_color": "blue",
@@ -13544,7 +13544,7 @@
                     },
                     {
                       "type": "custom:mushroom-entity-card",
-                      "entity": "sensor.cursor_projected_cycle_usage",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_projected_cycle_usage",
                       "name": "Projected",
                       "icon": "mdi:chart-timeline-variant-shimmer",
                       "icon_color": "purple",
@@ -13553,7 +13553,7 @@
                     },
                     {
                       "type": "custom:mushroom-entity-card",
-                      "entity": "sensor.cursor_auto_usage_percent",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_auto_percent_used",
                       "name": "Auto %",
                       "icon": "mdi:robot",
                       "icon_color": "teal",
@@ -13562,7 +13562,7 @@
                     },
                     {
                       "type": "custom:mushroom-entity-card",
-                      "entity": "sensor.cursor_api_usage_percent",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_api_percent_used",
                       "name": "API %",
                       "icon": "mdi:api",
                       "icon_color": "cyan",
@@ -13571,7 +13571,7 @@
                     },
                     {
                       "type": "custom:mushroom-entity-card",
-                      "entity": "sensor.cursor_session_token_expiry",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_session_token_expiry",
                       "name": "Token Expiry",
                       "icon": "mdi:key-variant",
                       "icon_color": "amber",
@@ -13580,7 +13580,7 @@
                     },
                     {
                       "type": "custom:mushroom-entity-card",
-                      "entity": "sensor.cursor_cycle_percent_elapsed",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_cycle_percent_elapsed",
                       "name": "Cycle Elapsed",
                       "icon": "mdi:progress-clock",
                       "icon_color": "indigo",
@@ -13593,19 +13593,19 @@
                   "type": "entities",
                   "entities": [
                     {
-                      "entity": "sensor.cursor_usage_status",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_usage_status",
                       "name": "Status"
                     },
                     {
-                      "entity": "sensor.cursor_billing_cycle_start",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_billing_cycle_start",
                       "name": "Cycle Start"
                     },
                     {
-                      "entity": "sensor.cursor_billing_cycle_end",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_billing_cycle_end",
                       "name": "Cycle End"
                     },
                     {
-                      "entity": "sensor.cursor_included_usage_limit",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_included_usage_limit",
                       "name": "Included Limit"
                     }
                   ]
@@ -13615,24 +13615,24 @@
                   "name": "Included Usage %",
                   "entities": [
                     {
-                      "entity": "sensor.cursor_included_usage_percent",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_included_usage_percent",
                       "name": "Included",
                       "color": "#2196F3"
                     },
                     {
-                      "entity": "sensor.cursor_auto_usage_percent",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_auto_percent_used",
                       "name": "Auto %",
                       "color": "#009688",
                       "show_fill": false
                     },
                     {
-                      "entity": "sensor.cursor_api_usage_percent",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_api_percent_used",
                       "name": "API %",
                       "color": "#00BCD4",
                       "show_fill": false
                     },
                     {
-                      "entity": "sensor.cursor_cycle_percent_elapsed",
+                      "entity": "sensor.cursor_worgarside_gmail_com_f6ebea_cycle_percent_elapsed",
                       "name": "Cycle Elapsed",
                       "color": "#9E9E9E",
                       "show_fill": false
@@ -13656,7 +13656,203 @@
                 {
                   "type": "markdown",
                   "title": "Spend by Model",
-                  "content": "{% set models = state_attr('sensor.cursor_usage_by_model', 'models') or {} %}\n{% set ns = namespace(rows=[]) %}\n{% for name, data in models.items() %}\n  {% set ns.rows = ns.rows + [(data.total_cents | float(0), name)] %}\n{% endfor %}\n{% for cents, name in ns.rows | sort(reverse=true) %}\n- **{{ '%.2f'|format(cents / 100) }}** \u2014 `{{ name }}`\n{% endfor %}"
+                  "content": "{% set models = state_attr('sensor.cursor_worgarside_gmail_com_f6ebea_usage_by_model', 'models') or {} %}\n{% set ns = namespace(rows=[]) %}\n{% for name, data in models.items() %}\n  {% set ns.rows = ns.rows + [(data.total_cents | float(0), name)] %}\n{% endfor %}\n{% for cents, name in ns.rows | sort(reverse=true) %}\n- **{{ '%.2f'|format(cents / 100) }}** \u2014 `{{ name }}`\n{% endfor %}"
+                }
+              ],
+              "column_span": 3
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Cursor Ultra \u2014 Yantra Technologies",
+                  "icon": "mdi:cursor-default-click",
+                  "badges": [
+                    {
+                      "type": "entity",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_usage_status",
+                      "show_state": true
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_cycle_days_remaining",
+                      "show_state": true
+                    }
+                  ]
+                },
+                {
+                  "type": "gauge",
+                  "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_total_percent_used",
+                  "min": 0,
+                  "max": 100,
+                  "needle": true,
+                  "severity": [
+                    {
+                      "value": 50,
+                      "color": "green"
+                    },
+                    {
+                      "value": 75,
+                      "color": "yellow"
+                    },
+                    {
+                      "value": 90,
+                      "color": "orange"
+                    },
+                    {
+                      "value": 100,
+                      "color": "red"
+                    }
+                  ]
+                },
+                {
+                  "square": false,
+                  "type": "grid",
+                  "columns": 2,
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-entity-card",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_included_usage_used",
+                      "name": "Used",
+                      "icon": "mdi:currency-usd",
+                      "icon_color": "orange",
+                      "primary_info": "state",
+                      "secondary_info": "name"
+                    },
+                    {
+                      "type": "custom:mushroom-entity-card",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_included_usage_remaining",
+                      "name": "Remaining",
+                      "icon": "mdi:currency-usd-off",
+                      "icon_color": "green",
+                      "primary_info": "state",
+                      "secondary_info": "name"
+                    },
+                    {
+                      "type": "custom:mushroom-entity-card",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_usage_pace",
+                      "name": "Pace",
+                      "icon": "mdi:speedometer",
+                      "icon_color": "blue",
+                      "primary_info": "state",
+                      "secondary_info": "name"
+                    },
+                    {
+                      "type": "custom:mushroom-entity-card",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_projected_cycle_usage",
+                      "name": "Projected",
+                      "icon": "mdi:chart-timeline-variant-shimmer",
+                      "icon_color": "purple",
+                      "primary_info": "state",
+                      "secondary_info": "name"
+                    },
+                    {
+                      "type": "custom:mushroom-entity-card",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_auto_percent_used",
+                      "name": "Auto %",
+                      "icon": "mdi:robot",
+                      "icon_color": "teal",
+                      "primary_info": "state",
+                      "secondary_info": "name"
+                    },
+                    {
+                      "type": "custom:mushroom-entity-card",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_api_percent_used",
+                      "name": "API %",
+                      "icon": "mdi:api",
+                      "icon_color": "cyan",
+                      "primary_info": "state",
+                      "secondary_info": "name"
+                    },
+                    {
+                      "type": "custom:mushroom-entity-card",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_session_token_expiry",
+                      "name": "Token Expiry",
+                      "icon": "mdi:key-variant",
+                      "icon_color": "amber",
+                      "primary_info": "state",
+                      "secondary_info": "name"
+                    },
+                    {
+                      "type": "custom:mushroom-entity-card",
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_cycle_percent_elapsed",
+                      "name": "Cycle Elapsed",
+                      "icon": "mdi:progress-clock",
+                      "icon_color": "indigo",
+                      "primary_info": "state",
+                      "secondary_info": "name"
+                    }
+                  ]
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_usage_status",
+                      "name": "Status"
+                    },
+                    {
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_billing_cycle_start",
+                      "name": "Cycle Start"
+                    },
+                    {
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_billing_cycle_end",
+                      "name": "Cycle End"
+                    },
+                    {
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_included_usage_limit",
+                      "name": "Included Limit"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:mini-graph-card",
+                  "name": "Included Usage %",
+                  "entities": [
+                    {
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_included_usage_percent",
+                      "name": "Included",
+                      "color": "#2196F3"
+                    },
+                    {
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_auto_percent_used",
+                      "name": "Auto %",
+                      "color": "#009688",
+                      "show_fill": false
+                    },
+                    {
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_api_percent_used",
+                      "name": "API %",
+                      "color": "#00BCD4",
+                      "show_fill": false
+                    },
+                    {
+                      "entity": "sensor.cursor_will_garside_yantratech_com_cf11cf_cycle_percent_elapsed",
+                      "name": "Cycle Elapsed",
+                      "color": "#9E9E9E",
+                      "show_fill": false
+                    }
+                  ],
+                  "hours_to_show": 720,
+                  "points_per_hour": 1,
+                  "line_width": 2,
+                  "lower_bound": 0,
+                  "upper_bound": 100,
+                  "show": {
+                    "state": true,
+                    "icon": false,
+                    "legend": true,
+                    "labels": true,
+                    "fill": "fade",
+                    "name": true
+                  },
+                  "height": 150
+                },
+                {
+                  "type": "markdown",
+                  "title": "Spend by Model",
+                  "content": "{% set models = state_attr('sensor.cursor_will_garside_yantratech_com_cf11cf_usage_by_model', 'models') or {} %}\n{% set ns = namespace(rows=[]) %}\n{% for name, data in models.items() %}\n  {% set ns.rows = ns.rows + [(data.total_cents | float(0), name)] %}\n{% endfor %}\n{% for cents, name in ns.rows | sort(reverse=true) %}\n- **{{ '%.2f'|format(cents / 100) }}** \u2014 `{{ name }}`\n{% endfor %}"
                 }
               ],
               "column_span": 3
