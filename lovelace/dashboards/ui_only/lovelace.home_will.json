@@ -9203,6 +9203,47 @@
                       "ha-markdown$": "ha-markdown-element { width: 100%; } table { width: 100%; table-layout: fixed; margin: 0; } th, td { padding: 7px 8px; text-align: center; } th:first-child, td:first-child { width: 18%; text-align: left; }"
                     }
                   }
+                },
+                {
+                  "type": "custom:mini-graph-card",
+                  "name": "28 Day History",
+                  "entities": [
+                    {
+                      "entity": "sensor.pollen_forecast_5_day_max",
+                      "name": "Pollen maximum",
+                      "color": "#8BC34A",
+                      "show_fill": true,
+                      "show_points": true
+                    },
+                    {
+                      "entity": "input_number.hayfever_pollen_threshold",
+                      "name": "Alert threshold",
+                      "color": "#FFC107",
+                      "show_fill": false,
+                      "show_points": false
+                    }
+                  ],
+                  "hours_to_show": 672,
+                  "points_per_hour": 0.041666666666666664,
+                  "line_width": 2,
+                  "height": 140,
+                  "lower_bound": 0,
+                  "upper_bound": 5,
+                  "smoothing": false,
+                  "hour24": true,
+                  "animate": false,
+                  "show": {
+                    "icon": false,
+                    "state": false,
+                    "name": true,
+                    "legend": true,
+                    "labels": true,
+                    "fill": "fade"
+                  },
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": "auto"
+                  }
                 }
               ]
             }
