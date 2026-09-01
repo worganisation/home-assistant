@@ -2,7 +2,7 @@
 
 ## Automation
 
-<details><summary><h3>Entities (236)</h3></summary>
+<details><summary><h3>Entities (237)</h3></summary>
 
 <details><summary><code>/automation/auto-reload-complete</code></summary>
 
@@ -3277,6 +3277,19 @@ File: [`automation/switch/hot_water/proximity/off.yaml`](entities/automation/swi
 - Mode: `single`
 
 File: [`automation/switch/hot_water/proximity/on.yaml`](entities/automation/switch/hot_water/proximity/on.yaml)
+</details>
+
+<details><summary><code>/switch/lava-lamp/on-too-long</code></summary>
+
+**Entity ID: `automation.switch_lava_lamp_on_too_long`**
+
+> Notify Will when the lava lamp has been on for 4 hours, or after it has been on for an hour while Frigate has continuously reported no person in the lounge. Repeat the vacancy reminder every hour until the lamp is turned off or a person returns.
+
+- Alias: /switch/lava-lamp/on-too-long
+- ID: `switch_lava_lamp_on_too_long`
+- Mode: `parallel`
+
+File: [`automation/switch/lava_lamp/on_too_long.yaml`](entities/automation/switch/lava_lamp/on_too_long.yaml)
 </details>
 
 <details><summary><code>/switch/lounge-christmas-tree/lounge-vacancy-timeout</code></summary>

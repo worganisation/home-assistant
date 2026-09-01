@@ -1,0 +1,140 @@
+---
+alias: /switch/lava-lamp/on-too-long
+
+id: switch_lava_lamp_on_too_long
+
+description: >-
+  Notify Will when the lava lamp has been on for 4 hours, or after it has been on for an hour
+  while Frigate has continuously reported no person in the lounge. Repeat the vacancy reminder
+  every hour until the lamp is turned off or a person returns.
+
+mode: parallel
+
+max: 4
+
+max_exceeded: silent
+
+trigger:
+  - platform: state
+    id: on_four_hours
+    entity_id: switch.lava_lamp
+    to: "on"
+    for:
+      hours: 4
+
+  - platform: template
+    id: unoccupied_one_hour
+    value_template: >-
+      {{
+        is_state('switch.lava_lamp', 'on') and
+        is_state('binary_sensor.lounge_person_occupancy', 'off')
+      }}
+    for:
+      hours: 1
+
+  - platform: state
+    id: lamp_turned_off
+    entity_id: switch.lava_lamp
+    to: "off"
+
+  - platform: state
+    id: lounge_occupied
+    entity_id: binary_sensor.lounge_person_occupancy
+    to: "on"
+
+action:
+  - choose:
+      - alias: Notify after 4 hours of continuous use
+        conditions:
+          - "{{ trigger.id == 'on_four_hours' }}"
+
+          - condition: not
+            conditions:
+              - condition: state
+                entity_id: binary_sensor.lounge_person_occupancy
+                state: "off"
+                for:
+                  hours: 1
+        sequence:
+          - action: script.notify_will
+            data:
+              title: Lava Lamp Has Been On for 4 Hours
+              message: The lounge lava lamp has been on continuously for 4 hours.
+              notification_id: lava_lamp_on_too_long
+              mobile_notification_icon: mdi:lava-lamp
+              group: lava-lamp
+
+      - alias: Remind hourly while the lounge remains vacant
+        conditions: "{{ trigger.id == 'unoccupied_one_hour' }}"
+        sequence:
+          - action: script.notify_will
+            data:
+              clear_notification: true
+              notification_id: lava_lamp_on_too_long
+
+          - repeat:
+              while:
+                - condition: state
+                  entity_id: switch.lava_lamp
+                  state: "on"
+
+                - condition: state
+                  entity_id: binary_sensor.lounge_person_occupancy
+                  state: "off"
+
+              sequence:
+                - variables:
+                    unoccupied_hours: >-
+                      {% set joint_start = [
+                        as_timestamp(states.switch.lava_lamp.last_changed),
+                        as_timestamp(states.binary_sensor.lounge_person_occupancy.last_changed)
+                      ] | max %}
+                      {{ ((as_timestamp(now()) - joint_start) / 3600) | int }}
+
+                - action: script.notify_will
+                  data:
+                    title: Lava Lamp On in Empty Lounge
+                    message: >-
+                      The lava lamp has been on while nobody has been in the lounge for
+                      {{ unoccupied_hours }} {{ 'hour' if unoccupied_hours == 1 else 'hours' }}.
+                    notification_id: lava_lamp_on_while_unoccupied
+                    mobile_notification_icon: mdi:lava-lamp
+                    group: lava-lamp
+
+                - wait_for_trigger:
+                    - platform: state
+                      entity_id: switch.lava_lamp
+                      to: "off"
+
+                    - platform: state
+                      entity_id: binary_sensor.lounge_person_occupancy
+                      to: "on"
+                  timeout:
+                    hours: 1
+                  continue_on_timeout: true
+
+                - if: "{{ wait.completed }}"
+                  then:
+                    - stop: The lava lamp is no longer on in an empty lounge
+
+      - alias: Clear all alerts when the lamp is turned off
+        conditions: "{{ trigger.id == 'lamp_turned_off' }}"
+        sequence:
+          - parallel:
+              - action: script.notify_will
+                data:
+                  clear_notification: true
+                  notification_id: lava_lamp_on_too_long
+
+              - action: script.notify_will
+                data:
+                  clear_notification: true
+                  notification_id: lava_lamp_on_while_unoccupied
+
+      - alias: Clear the vacancy alert when a person returns
+        conditions: "{{ trigger.id == 'lounge_occupied' }}"
+        sequence:
+          - action: script.notify_will
+            data:
+              clear_notification: true
+              notification_id: lava_lamp_on_while_unoccupied
