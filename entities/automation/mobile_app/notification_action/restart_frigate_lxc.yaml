@@ -1,0 +1,75 @@
+---
+alias: /mobile-app/notification-action/restart-frigate-lxc
+
+id: mobile_app_notification_action_restart_frigate_lxc
+
+description: Restart the Frigate LXC only after Will confirms an active critical alert
+
+mode: single
+
+max_exceeded: silent
+
+trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: RESTART_FRIGATE_LXC
+
+condition:
+  - condition: state
+    entity_id: sensor.frigate_detector_watchdog_state
+    state: critical
+
+  - condition: template
+    value_template: "{{ states('button.lxc_frigate_125_reboot') != 'unavailable' }}"
+
+action:
+  - variables:
+      reboot_button_before: "{{ states('button.lxc_frigate_125_reboot') }}"
+
+      last_boot_before: "{{ states('sensor.lxc_frigate_125_last_boot') }}"
+
+  - action: button.press
+    continue_on_error: true
+    target:
+      entity_id: button.lxc_frigate_125_reboot
+
+  - wait_template: >-
+      {{
+        states('button.lxc_frigate_125_reboot') != reboot_button_before
+        or states('sensor.lxc_frigate_125_last_boot') != last_boot_before
+      }}
+    timeout:
+      seconds: 10
+    continue_on_timeout: true
+
+  - if: "{{ wait.completed }}"
+    then:
+      - action: script.notify_will
+        continue_on_error: true
+        data:
+          title: Frigate LXC restart requested
+          message: >-
+            Home Assistant dispatched the Frigate LXC restart. The detector watchdog
+            will update this notification after it verifies detector and camera health.
+          notification_id: frigate_detector_watchdog
+          mobile_notification_icon: mdi:restart
+          group: frigate-health
+          sticky: true
+          persistent: true
+    else:
+      - action: script.notify_will
+        continue_on_error: true
+        data:
+          title: Frigate LXC restart not confirmed
+          message: >-
+            Home Assistant could not confirm that the Frigate LXC restart command was
+            dispatched. The critical detector fault is still active.
+          notification_id: frigate_detector_watchdog
+          mobile_notification_icon: mdi:restart-alert
+          group: frigate-health
+          sticky: true
+          persistent: true
+          actions:
+            - action: RESTART_FRIGATE_LXC
+              title: Retry Frigate LXC restart

@@ -2,7 +2,7 @@
 
 ## Automation
 
-<details><summary><h3>Entities (233)</h3></summary>
+<details><summary><h3>Entities (236)</h3></summary>
 
 <details><summary><code>/automation/auto-reload-complete</code></summary>
 
@@ -385,6 +385,29 @@ File: [`automation/camera/frigate/audio_safety_notify_will.yaml`](entities/autom
 }
 ```
 File: [`automation/camera/frigate/bark_notify_will.yaml`](entities/automation/camera/frigate/bark_notify_will.yaml)
+</details>
+
+<details><summary><code>/camera/frigate/detector-watchdog-notify-will</code></summary>
+
+**Entity ID: `automation.camera_frigate_detector_watchdog_notify_will`**
+
+> Notify Will when Frigate performs or fails automatic detector recovery
+
+- Alias: /camera/frigate/detector-watchdog-notify-will
+- ID: `camera_frigate_detector_watchdog_notify_will`
+- Mode: `queued`
+- Variables:
+
+```json
+{
+  "watchdog_state": "{{ trigger.payload_json.get('state', '') }}",
+  "recovery_method": "{{ trigger.payload_json.get('recovery_method', '') }}",
+  "retry_after_minutes": "{{\n  (\n    trigger.payload_json.get('retry_after_seconds', 0) | int(0) / 60\n  )\n  | round(0, 'ceil')\n  | int(0)\n}}",
+  "failure_reason": "{{ trigger.payload_json.get('reason', '') }}",
+  "failure_error": "{{ trigger.payload_json.get('error', '') }}"
+}
+```
+File: [`automation/camera/frigate/detector_watchdog_notify_will.yaml`](entities/automation/camera/frigate/detector_watchdog_notify_will.yaml)
 </details>
 
 <details><summary><code>/camera/frigate/genai-health-notify-will</code></summary>
@@ -1680,6 +1703,19 @@ File: [`automation/mobile_app/notification_action/central_heating_turn_off.yaml`
 File: [`automation/mobile_app/notification_action/holiday_mode_turn_on.yaml`](entities/automation/mobile_app/notification_action/holiday_mode_turn_on.yaml)
 </details>
 
+<details><summary><code>/mobile-app/notification-action/restart-frigate-lxc</code></summary>
+
+**Entity ID: `automation.mobile_app_notification_action_restart_frigate_lxc`**
+
+> Restart the Frigate LXC only after Will confirms an active critical alert
+
+- Alias: /mobile-app/notification-action/restart-frigate-lxc
+- ID: `mobile_app_notification_action_restart_frigate_lxc`
+- Mode: `single`
+
+File: [`automation/mobile_app/notification_action/restart_frigate_lxc.yaml`](entities/automation/mobile_app/notification_action/restart_frigate_lxc.yaml)
+</details>
+
 <details><summary><code>/mobile-app/notification-action/vaultpi-storage-alert</code></summary>
 
 **Entity ID: `automation.mobile_app_notification_action_vaultpi_storage_alert`**
@@ -2927,6 +2963,19 @@ File: [`automation/schedule/hot_water/on.yaml`](entities/automation/schedule/hot
 - Mode: `single`
 
 File: [`automation/sensor/bedroom_climate_sensor_temperature/sync_radiator_trv.yaml`](entities/automation/sensor/bedroom_climate_sensor_temperature/sync_radiator_trv.yaml)
+</details>
+
+<details><summary><code>/sensor/frigate-detector-watchdog-state-notify-will</code></summary>
+
+**Entity ID: `automation.sensor_frigate_detector_watchdog_state_notify_will`**
+
+> Notify Will when the Frigate detector watchdog heartbeat disappears
+
+- Alias: /sensor/frigate-detector-watchdog-state-notify-will
+- ID: `sensor_frigate_detector_watchdog_state_notify_will`
+- Mode: `single`
+
+File: [`automation/sensor/frigate_detector_watchdog_state_notify_will.yaml`](entities/automation/sensor/frigate_detector_watchdog_state_notify_will.yaml)
 </details>
 
 <details><summary><code>/sensor/holiday-mode/prompt</code></summary>
@@ -5547,7 +5596,7 @@ File: [`media_player/topaz_sr10.yaml`](entities/media_player/topaz_sr10.yaml)
 
 ## Mqtt
 
-<details><summary><h3>Entities (124)</h3></summary>
+<details><summary><h3>Entities (125)</h3></summary>
 
 <details><summary><strong>MtrxPi | Audio Visualiser: Chunk Size</strong></summary>
 
@@ -6204,6 +6253,16 @@ File: [`mqtt/sensor/crtpi/pi_stats_start_time.yaml`](entities/mqtt/sensor/crtpi/
 - Unit Of Measurement: `s`
 
 File: [`mqtt/sensor/crtpi/uptime.yaml`](entities/mqtt/sensor/crtpi/uptime.yaml)
+</details>
+
+<details><summary><strong>Frigate Detector Watchdog State</strong></summary>
+
+**Entity ID: `sensor.frigate_detector_watchdog_state`**
+
+- Icon: [`mdi:cctv`](https://pictogrammers.com/library/mdi/icon/cctv/)
+- State Topic: frigate/watchdog/detector/state
+
+File: [`mqtt/sensor/frigate_detector_watchdog_state.yaml`](entities/mqtt/sensor/frigate_detector_watchdog_state.yaml)
 </details>
 
 <details><summary><strong>GitHub Actions Runner Slots</strong></summary>
