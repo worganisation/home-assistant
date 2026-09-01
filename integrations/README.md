@@ -2,7 +2,7 @@
 
 ## Automation
 
-<details><summary><h3>Entities (230)</h3></summary>
+<details><summary><h3>Entities (233)</h3></summary>
 
 <details><summary><code>/automation/auto-reload-complete</code></summary>
 
@@ -238,6 +238,19 @@ File: [`automation/binary_sensor/quiet_hours/on.yaml`](entities/automation/binar
 File: [`automation/binary_sensor/roof_shutters_e1_box_leak_sensor/on.yaml`](entities/automation/binary_sensor/roof_shutters_e1_box_leak_sensor/on.yaml)
 </details>
 
+<details><summary><code>/binary-sensor/take-hayfever-tablet-required/state-change</code></summary>
+
+**Entity ID: `automation.binary_sensor_take_hayfever_tablet_required_state_change`**
+
+> Notify Will when pollen conditions require a tablet and clear on recovery
+
+- Alias: /binary-sensor/take-hayfever-tablet-required/state-change
+- ID: `binary_sensor_take_hayfever_tablet_required_state_change`
+- Mode: `single`
+
+File: [`automation/binary_sensor/take_hayfever_tablet_required/state_change.yaml`](entities/automation/binary_sensor/take_hayfever_tablet_required/state_change.yaml)
+</details>
+
 <details><summary><code>/binary-sensor/vaultpi-storage/failure</code></summary>
 
 **Entity ID: `automation.binary_sensor_vaultpi_storage_failure`**
@@ -447,7 +460,7 @@ File: [`automation/camera/frigate/genai_presence_control.yaml`](entities/automat
 
 **Entity ID: `automation.camera_frigate_notify`**
 
-> Notify Will and Vic immediately for front-door reviews, then silently update their notifications with Frigate's AI-generated summary. Under normal filtering, pet and indoor person reviews notify only when nobody is home. input_boolean.frigate_bypass_filters bypasses the noise-reduction gating for Will only; Vic's notifications are always filtered.
+> Notify Will and Vic immediately for front-door reviews, then silently update their notifications with Frigate's AI-generated summary. Under normal filtering, pet and indoor person reviews notify only when nobody is home. input_boolean.frigate_bypass_filters bypasses the noise-reduction gating for Will only; Vic's notifications are enabled by input_boolean.frigate_notify_vic and are always filtered.
 
 - Alias: /camera/frigate/notify
 - ID: `camera_frigate_notify`
@@ -510,7 +523,7 @@ File: [`automation/camera/frigate/notify.yaml`](entities/automation/camera/friga
 
 ```json
 {
-  "camera_name": "{% if trigger.entity_id == 'camera.basement' %}\n  Basement\n{% elif trigger.entity_id == 'camera.lounge' %}\n  Lounge\n{% elif trigger.entity_id == 'camera.desmond_cam' %}\n  Desmond\n{% elif trigger.entity_id == 'camera.front_door' %}\n  Front Door\n{% else %}\n  Unknown\n{% endif %}"
+  "camera_name": "{% if trigger.entity_id == 'camera.basement' %}\n  Basement\n{% elif trigger.entity_id == 'camera.lounge' %}\n  Lounge\n{% elif trigger.entity_id == 'camera.front_door' %}\n  Front Door\n{% else %}\n  Unknown\n{% endif %}"
 }
 ```
 File: [`automation/camera/offline_notify_will.yaml`](entities/automation/camera/offline_notify_will.yaml)
@@ -1347,7 +1360,7 @@ File: [`automation/label/restore_state_after_room_vacancy/state_change.yaml`](en
 
 **Entity ID: `automation.light_basement_lights_unoccupied_alert`**
 
-> Warn Will when a kitchen or dining-area light has remained on while Frigate has continuously reported no person. This automation is advisory and never changes lights or automations itself.
+> Warn Will when a kitchen or dining-area light has remained on while Frigate has continuously reported no person. This automation is advisory and never changes lights or automations itself. Holiday presence simulation suppresses the alert, because those lights are turned on deliberately while the house is empty.
 
 - Alias: /light/basement-lights/unoccupied-alert
 - ID: `light_basement_lights_unoccupied_alert`
@@ -1652,6 +1665,19 @@ File: [`automation/mobile_app/notification_action/bedroom_sunrise_stop.yaml`](en
 - Mode: `single`
 
 File: [`automation/mobile_app/notification_action/central_heating_turn_off.yaml`](entities/automation/mobile_app/notification_action/central_heating_turn_off.yaml)
+</details>
+
+<details><summary><code>/mobile-app/notification-action/holiday-mode-turn-on</code></summary>
+
+**Entity ID: `automation.mobile_app_notification_action_holiday_mode_turn_on`**
+
+> Enable holiday presence simulation from Will's notification action
+
+- Alias: /mobile-app/notification-action/holiday-mode-turn-on
+- ID: `mobile_app_notification_action_holiday_mode_turn_on`
+- Mode: `single`
+
+File: [`automation/mobile_app/notification_action/holiday_mode_turn_on.yaml`](entities/automation/mobile_app/notification_action/holiday_mode_turn_on.yaml)
 </details>
 
 <details><summary><code>/mobile-app/notification-action/vaultpi-storage-alert</code></summary>
@@ -2903,6 +2929,19 @@ File: [`automation/schedule/hot_water/on.yaml`](entities/automation/schedule/hot
 File: [`automation/sensor/bedroom_climate_sensor_temperature/sync_radiator_trv.yaml`](entities/automation/sensor/bedroom_climate_sensor_temperature/sync_radiator_trv.yaml)
 </details>
 
+<details><summary><code>/sensor/holiday-mode/prompt</code></summary>
+
+**Entity ID: `automation.sensor_holiday_mode_prompt`**
+
+> Ask Will whether to enable holiday mode once both residents are more than 20 miles from home
+
+- Alias: /sensor/holiday-mode/prompt
+- ID: `sensor_holiday_mode_prompt`
+- Mode: `single`
+
+File: [`automation/sensor/holiday_mode/prompt.yaml`](entities/automation/sensor/holiday_mode/prompt.yaml)
+</details>
+
 <details><summary><code>/sensor/kitchen-air-quality-sensor-temperature/sync-radiator-trv</code></summary>
 
 **Entity ID: `automation.sensor_kitchen_air_quality_sensor_temperature_sync_radiator_trv`**
@@ -3820,7 +3859,7 @@ File: [`command_line/sensor/remote_git_branches.yaml`](entities/command_line/sen
 
 ## Device Tracker
 
-<details><summary><h3>Entities (2)</h3></summary>
+<details><summary><h3>Entities (1)</h3></summary>
 
 <details><summary><code>device_tracker.primary_gmail_address</code></summary>
 
@@ -3829,18 +3868,11 @@ File: [`command_line/sensor/remote_git_branches.yaml`](entities/command_line/sen
 File: [`device_tracker/google_maps/primary_gmail_address.yaml`](entities/device_tracker/google_maps/primary_gmail_address.yaml)
 </details>
 
-<details><summary><code>device_tracker.openwrt_vm</code></summary>
-
-- Platform: `luci`
-
-File: [`device_tracker/luci/openwrt_vm.yaml`](entities/device_tracker/luci/openwrt_vm.yaml)
-</details>
-
 </details>
 
 ## Input Boolean
 
-<details><summary><h3>Entities (37)</h3></summary>
+<details><summary><h3>Entities (38)</h3></summary>
 
 <details><summary><strong>Air Purifier | Quiet Mode</strong></summary>
 
@@ -4092,6 +4124,15 @@ File: [`input_boolean/frigate_bypass_filters.yaml`](entities/input_boolean/friga
 - Icon: [`mdi:image-alert-outline`](https://pictogrammers.com/library/mdi/icon/image-alert-outline/)
 
 File: [`input_boolean/frigate_genai_health_alert.yaml`](entities/input_boolean/frigate_genai_health_alert.yaml)
+</details>
+
+<details><summary><strong>Frigate | Notify Vic</strong></summary>
+
+**Entity ID: `input_boolean.frigate_notify_vic`**
+
+- Icon: [`mdi:cctv`](https://pictogrammers.com/library/mdi/icon/cctv/)
+
+File: [`input_boolean/frigate_notify_vic.yaml`](entities/input_boolean/frigate_notify_vic.yaml)
 </details>
 
 <details><summary><strong>Lounge | Lights: Exercise Mode</strong></summary>
@@ -4355,7 +4396,7 @@ File: [`input_datetime/rain_flash_cooldown.yaml`](entities/input_datetime/rain_f
 
 ## Input Number
 
-<details><summary><h3>Entities (75)</h3></summary>
+<details><summary><h3>Entities (76)</h3></summary>
 
 <details><summary><strong>Air Purifier | Quiet Mode Ceiling</strong></summary>
 
@@ -4787,6 +4828,19 @@ File: [`input_number/threshold/kitchen_extractor_vent/kitchen_extractor_vent_voc
 - Unit Of Measurement: °C
 
 File: [`input_number/threshold/octopi_fan/octopi_fan_auto_on_threshold.yaml`](entities/input_number/threshold/octopi_fan/octopi_fan_auto_on_threshold.yaml)
+</details>
+
+<details><summary><strong>qBittorrent: Storage Cleanup Threshold</strong></summary>
+
+**Entity ID: `input_number.qbittorrent_storage_cleanup_threshold`**
+
+- Icon: [`mdi:harddisk-remove`](https://pictogrammers.com/library/mdi/icon/harddisk-remove/)
+- Max: 100
+- Min: 5
+- Mode: `box`
+- Unit Of Measurement: %
+
+File: [`input_number/threshold/qbittorrent/qbittorrent_storage_cleanup_threshold.yaml`](entities/input_number/threshold/qbittorrent/qbittorrent_storage_cleanup_threshold.yaml)
 </details>
 
 <details><summary><strong>Roof Shutters: Close Temperature Threshold</strong></summary>
@@ -5493,7 +5547,7 @@ File: [`media_player/topaz_sr10.yaml`](entities/media_player/topaz_sr10.yaml)
 
 ## Mqtt
 
-<details><summary><h3>Entities (123)</h3></summary>
+<details><summary><h3>Entities (124)</h3></summary>
 
 <details><summary><strong>MtrxPi | Audio Visualiser: Chunk Size</strong></summary>
 
@@ -6150,6 +6204,18 @@ File: [`mqtt/sensor/crtpi/pi_stats_start_time.yaml`](entities/mqtt/sensor/crtpi/
 - Unit Of Measurement: `s`
 
 File: [`mqtt/sensor/crtpi/uptime.yaml`](entities/mqtt/sensor/crtpi/uptime.yaml)
+</details>
+
+<details><summary><strong>GitHub Actions Runner Slots</strong></summary>
+
+**Entity ID: `sensor.github_actions_runner_slots`**
+
+- Icon: [`mdi:github`](https://pictogrammers.com/library/mdi/icon/github/)
+- State Class: `measurement`
+- State Topic: /homeassistant/gha-runner/stats
+- Unit Of Measurement: `jobs`
+
+File: [`mqtt/sensor/github_actions_runner_slots.yaml`](entities/mqtt/sensor/github_actions_runner_slots.yaml)
 </details>
 
 <details><summary><strong>GrowPi Active Git Ref</strong></summary>
@@ -8553,7 +8619,7 @@ File: [`shell_command/toggle_pr_label.yaml`](entities/shell_command/toggle_pr_la
 
 ## Template
 
-<details><summary><h3>Entities (107)</h3></summary>
+<details><summary><h3>Entities (111)</h3></summary>
 
 <details><summary><strong>Bank Holiday</strong></summary>
 
@@ -8578,6 +8644,15 @@ File: [`template/binary_sensor/basement_human_presence.yaml`](entities/template/
 - Icon: [`mdi:clock-time-twelve-outline`](https://pictogrammers.com/library/mdi/icon/clock-time-twelve-outline/)
 
 File: [`template/binary_sensor/before_midday.yaml`](entities/template/binary_sensor/before_midday.yaml)
+</details>
+
+<details><summary><strong>GitHub Actions Runner Saturated</strong></summary>
+
+**Entity ID: `binary_sensor.github_actions_runner_saturated`**
+
+- Icon: [`mdi:gauge-full`](https://pictogrammers.com/library/mdi/icon/gauge-full/)
+
+File: [`template/binary_sensor/github_actions_runner_saturated.yaml`](entities/template/binary_sensor/github_actions_runner_saturated.yaml)
 </details>
 
 <details><summary><strong>Office Desk Occupied</strong></summary>
@@ -9246,6 +9321,36 @@ File: [`template/sensor/entity_counts/unavailable_entities.yaml`](entities/templ
 {% endif %}
 ```
 File: [`template/sensor/garden_door_last_changed.yaml`](entities/template/sensor/garden_door_last_changed.yaml)
+</details>
+
+<details><summary><strong>GitHub Actions Runner Active Slots</strong></summary>
+
+**Entity ID: `sensor.github_actions_runner_active_slots`**
+
+- Icon: [`mdi:play-network-outline`](https://pictogrammers.com/library/mdi/icon/play-network-outline/)
+- Unit Of Measurement: `jobs`
+
+File: [`template/sensor/github_actions_runner_active_slots.yaml`](entities/template/sensor/github_actions_runner_active_slots.yaml)
+</details>
+
+<details><summary><strong>GitHub Actions Runner Available Slots</strong></summary>
+
+**Entity ID: `sensor.github_actions_runner_available_slots`**
+
+- Icon: [`mdi:checkbox-multiple-marked-circle-outline`](https://pictogrammers.com/library/mdi/icon/checkbox-multiple-marked-circle-outline/)
+- Unit Of Measurement: `jobs`
+
+File: [`template/sensor/github_actions_runner_available_slots.yaml`](entities/template/sensor/github_actions_runner_available_slots.yaml)
+</details>
+
+<details><summary><strong>GitHub Actions Runner Waiting Jobs</strong></summary>
+
+**Entity ID: `sensor.github_actions_runner_waiting_jobs`**
+
+- Icon: [`mdi:timer-sand`](https://pictogrammers.com/library/mdi/icon/timer-sand/)
+- Unit Of Measurement: `jobs`
+
+File: [`template/sensor/github_actions_runner_waiting_jobs.yaml`](entities/template/sensor/github_actions_runner_waiting_jobs.yaml)
 </details>
 
 <details><summary><strong>HiFi System: Media Metadata</strong></summary>
@@ -10014,7 +10119,7 @@ File: [`timer/vaultpi_storage_alert_snooze.yaml`](entities/timer/vaultpi_storage
 
 ## Var
 
-<details><summary><h3>Entities (34)</h3></summary>
+<details><summary><h3>Entities (33)</h3></summary>
 
 <details><summary><strong>Auto-Reload Queue</strong></summary>
 
@@ -10163,16 +10268,6 @@ File: [`var/spotify/spotify_reauth_auto_saver.yaml`](entities/var/spotify/spotif
 - Icon: [`mdi:key-alert-outline`](https://pictogrammers.com/library/mdi/icon/key-alert-outline/)
 
 File: [`var/spotify/spotify_reauth_track_processor.yaml`](entities/var/spotify/spotify_reauth_track_processor.yaml)
-</details>
-
-<details><summary><strong>Spotify Tempo (Will)</strong></summary>
-
-**Entity ID: `var.spotify_tempo_will`**
-
-- Icon: [`mdi:metronome`](https://pictogrammers.com/library/mdi/icon/metronome/)
-- Unit Of Measurement: BPM
-
-File: [`var/spotify/spotify_tempo_will.yaml`](entities/var/spotify/spotify_tempo_will.yaml)
 </details>
 
 <details><summary><strong>Pixel Now Playing (Tasker)</strong></summary>

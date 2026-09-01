@@ -36,15 +36,15 @@ attributes:
       source_unavailable
     {% elif source_state != 'valid' %}
       source_malformed
+    {% elif not is_number(max_upi) %}
+      maximum_unavailable
+    {% elif not is_number(threshold) %}
+      threshold_unavailable
     {% elif as_timestamp(now()) - as_timestamp(
       states.sensor.google_pollen_forecast.last_updated,
       0
     ) > 43200 %}
       source_stale
-    {% elif not is_number(max_upi) %}
-      maximum_unavailable
-    {% elif not is_number(threshold) %}
-      threshold_unavailable
     {% elif max_upi | float > threshold | float %}
       above_threshold
     {% else %}

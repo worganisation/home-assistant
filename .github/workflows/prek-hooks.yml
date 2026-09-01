@@ -20,7 +20,8 @@ concurrency:
 jobs:
   prek:
     name: Prek Hooks
-    uses: worgarside/github-config-files/.github/workflows/__prek-hooks.yml@0.5.3
+    uses: worganisation/github-config-files/.github/workflows/__prek-hooks.yml@0.7.4
     with:
       python-version: '3.12'
+      sync-project-dependencies: 'true'
     secrets: inherit
