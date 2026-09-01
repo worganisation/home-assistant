@@ -10194,117 +10194,174 @@
                   "type": "heading",
                   "heading": "Mood",
                   "heading_style": "title",
+                  "icon": "mdi:emoticon-outline",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/home-will/mood"
+                  },
                   "badges": [
                     {
                       "type": "entity",
                       "entity": "sensor.will_mood_streak",
+                      "show_state": true
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "sensor.will_mood_summary",
                       "show_state": true
                     }
                   ]
                 },
                 {
                   "type": "custom:mushroom-template-card",
-                  "features": [
-                    {
-                      "type": "select-options"
-                    }
-                  ],
-                  "features_position": "inline",
-                  "entity": "select.will_mood_today",
-                  "primary": "Today's Mood",
-                  "icon": "mdi:emoticon-{%- if is_state(\"select.will_mood_today\", \"Not Set\") -%}\nconfused\n{%- elif is_state(\"select.will_mood_today\", \"Very Low\") -%}\ndead\n{%- elif is_state(\"select.will_mood_today\", \"Low\") -%}\nsad\n{%- elif is_state(\"select.will_mood_today\", \"Okay\") -%}\nneutral\n{%- elif is_state(\"select.will_mood_today\", \"Good\") -%}\nhappy\n{%- elif is_state(\"select.will_mood_today\", \"Great\") -%}\ncool\n{%- else -%}\ndevil\n{%- endif -%}\n-outline",
-                  "color": "{%- if is_state(\"select.will_mood_today\", \"Not Set\") -%}\n#9E9E9E\n{%- elif is_state(\"select.will_mood_today\", \"Very Low\") -%}\n#8B0000\n{%- elif is_state(\"select.will_mood_today\", \"Low\") -%}\n#FF5722\n{%- elif is_state(\"select.will_mood_today\", \"Okay\") -%}\n#FFC107\n{%- elif is_state(\"select.will_mood_today\", \"Good\") -%}\n#4CAF50\n{%- elif is_state(\"select.will_mood_today\", \"Great\") -%}\n#00E676\n{%- else -%}\n#9E9E9E\n{%- endif -%}",
+                  "entity": "sensor.will_mood_summary",
+                  "primary": "{% set current = state_attr('sensor.will_mood_summary', 'current') or {} %}\n{% set count = current.get('count', 0) | int(0) %}\n{% if count > 0 %}\n  {{ current.get('latest_mood', 'Mood logged') }} \u00b7 {{ count }} check-in{{ '' if count == 1 else 's' }} today\n{% else %}\n  No mood check-in yet\n{% endif %}",
+                  "secondary": "{{ states('sensor.will_mood_streak') | int(0) }} day current streak \u00b7 best {{ state_attr('sensor.will_mood_streak', 'longest_streak') | int(0) }} \u00b7 7-day consistency {{ state_attr('sensor.will_mood_streak', 'consistency_7_days') | float(0) | round(0) }}%",
+                  "icon": "{% set score = states('sensor.will_mood_summary') | float(0) %}\n{% if score >= 4.5 %}mdi:emoticon-cool-outline\n{% elif score >= 3.5 %}mdi:emoticon-happy-outline\n{% elif score >= 2.5 %}mdi:emoticon-neutral-outline\n{% elif score >= 1.5 %}mdi:emoticon-sad-outline\n{% elif score > 0 %}mdi:emoticon-dead-outline\n{% else %}mdi:emoticon-confused-outline{% endif %}",
+                  "color": "{% set score = states('sensor.will_mood_summary') | float(0) %}\n{% if score >= 4.5 %}#00C853\n{% elif score >= 3.5 %}#43A047\n{% elif score >= 2.5 %}#F9A825\n{% elif score >= 1.5 %}#EF6C00\n{% elif score > 0 %}#C62828\n{% else %}disabled{% endif %}",
+                  "multiline_secondary": true,
                   "tap_action": {
-                    "action": "none"
+                    "action": "navigate",
+                    "navigation_path": "/home-will/mood"
                   },
                   "hold_action": {
-                    "action": "perform-action",
-                    "perform_action": "browser_mod.popup",
-                    "target": {},
-                    "data": {
-                      "dismissable": true,
-                      "autoclose": false,
-                      "content": {
-                        "type": "vertical-stack",
-                        "cards": [
-                          {
-                            "type": "custom:mushroom-template-card",
-                            "icon": "mdi:bell-outline",
-                            "primary": "{% if is_state('switch.will_mood_reminders', 'on') %}Daily Reminder @ {{ states('time.will_mood_reminder_time')[:5] }}{% else %}Reminders off{% endif %}",
-                            "entity": "time.will_mood_reminder_time",
-                            "color": "{{ 'orange' if is_state('switch.will_mood_reminders', 'on') else 'disabled' }}",
-                            "tap_action": {
-                              "action": "more-info"
-                            },
-                            "icon_tap_action": {
-                              "action": "more-info"
-                            }
-                          },
-                          {
-                            "type": "entities",
-                            "show_header_toggle": false,
-                            "entities": [
-                              {
-                                "entity": "switch.will_mood_reminders",
-                                "name": "Reminders enabled"
-                              },
-                              {
-                                "entity": "time.will_mood_reminder_time",
-                                "name": "Reminder Time"
-                              },
-                              {
-                                "entity": "datetime.will_mood_next_reminder",
-                                "name": "Next Reminder"
-                              },
-                              {
-                                "entity": "number.will_mood_repeat_count",
-                                "name": "Max. reminder count"
-                              },
-                              {
-                                "entity": "number.will_mood_repeat_interval",
-                                "name": "Reminder interval (minutes)"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "custom:mushroom-template-card",
-                            "features": [
-                              {
-                                "type": "numeric-input",
-                                "style": "buttons"
-                              }
-                            ],
-                            "features_position": "inline",
-                            "entity": "number.will_mood_repeat_interval",
-                            "icon": "mdi:clock",
-                            "primary": "Reminder interval (minutes)"
-                          },
-                          {
-                            "type": "custom:mushroom-template-card",
-                            "features": [
-                              {
-                                "type": "numeric-input",
-                                "style": "buttons"
-                              }
-                            ],
-                            "features_position": "inline",
-                            "entity": "number.will_mood_repeat_count",
-                            "icon": "mdi:counter",
-                            "primary": "Max. reminder count"
-                          }
-                        ]
-                      }
-                    }
-                  },
-                  "icon_tap_action": {
-                    "action": "none"
+                    "action": "more-info"
                   }
+                },
+                {
+                  "type": "grid",
+                  "columns": 5,
+                  "square": false,
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Very Low",
+                      "icon": "mdi:emoticon-dead-outline",
+                      "color": "{{ '#C62828' if is_state('select.will_mood_today', 'Very Low') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Very Low"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Low",
+                      "icon": "mdi:emoticon-sad-outline",
+                      "color": "{{ '#EF6C00' if is_state('select.will_mood_today', 'Low') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Low"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Okay",
+                      "icon": "mdi:emoticon-neutral-outline",
+                      "color": "{{ '#F9A825' if is_state('select.will_mood_today', 'Okay') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Okay"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Good",
+                      "icon": "mdi:emoticon-happy-outline",
+                      "color": "{{ '#43A047' if is_state('select.will_mood_today', 'Good') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Good"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Great",
+                      "icon": "mdi:emoticon-cool-outline",
+                      "color": "{{ '#00C853' if is_state('select.will_mood_today', 'Great') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Great"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    }
+                  ]
                 },
                 {
                   "type": "custom:mushroom-entity-card",
                   "entity": "text.will_mood_note",
-                  "name": "Mood Notes",
+                  "name": "Note for latest check-in",
+                  "icon": "mdi:note-edit-outline",
                   "secondary_info": "state",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "button",
+                  "name": "Open mood journal",
+                  "icon": "mdi:book-open-page-variant-outline",
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/home-will/mood"
+                  },
                   "grid_options": {
                     "columns": 12,
                     "rows": 1
@@ -10947,6 +11004,622 @@
                   "state": "on"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "title": "Mood",
+          "path": "mood",
+          "icon": "mdi:emoticon-outline",
+          "type": "sections",
+          "max_columns": 3,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Check in",
+                  "heading_style": "title",
+                  "icon": "mdi:emoticon-plus-outline",
+                  "badges": [
+                    {
+                      "type": "entity",
+                      "entity": "sensor.will_mood_streak",
+                      "show_state": true
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "entity": "sensor.will_mood_summary",
+                  "primary": "{% set current = state_attr('sensor.will_mood_summary', 'current') or {} %}\n{% set count = current.get('count', 0) | int(0) %}\n{% if count > 0 %}\n  {{ current.get('latest_mood', 'Mood logged') }} \u00b7 {{ count }} check-in{{ '' if count == 1 else 's' }} today\n{% else %}\n  No mood check-in yet\n{% endif %}",
+                  "secondary": "{{ states('sensor.will_mood_streak') | int(0) }} day current streak \u00b7 best {{ state_attr('sensor.will_mood_streak', 'longest_streak') | int(0) }} \u00b7 7-day consistency {{ state_attr('sensor.will_mood_streak', 'consistency_7_days') | float(0) | round(0) }}%",
+                  "icon": "{% set score = states('sensor.will_mood_summary') | float(0) %}\n{% if score >= 4.5 %}mdi:emoticon-cool-outline\n{% elif score >= 3.5 %}mdi:emoticon-happy-outline\n{% elif score >= 2.5 %}mdi:emoticon-neutral-outline\n{% elif score >= 1.5 %}mdi:emoticon-sad-outline\n{% elif score > 0 %}mdi:emoticon-dead-outline\n{% else %}mdi:emoticon-confused-outline{% endif %}",
+                  "color": "{% set score = states('sensor.will_mood_summary') | float(0) %}\n{% if score >= 4.5 %}#00C853\n{% elif score >= 3.5 %}#43A047\n{% elif score >= 2.5 %}#F9A825\n{% elif score >= 1.5 %}#EF6C00\n{% elif score > 0 %}#C62828\n{% else %}disabled{% endif %}",
+                  "multiline_secondary": true,
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/home-will/mood"
+                  },
+                  "hold_action": {
+                    "action": "more-info"
+                  }
+                },
+                {
+                  "type": "grid",
+                  "columns": 5,
+                  "square": false,
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Very Low",
+                      "icon": "mdi:emoticon-dead-outline",
+                      "color": "{{ '#C62828' if is_state('select.will_mood_today', 'Very Low') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Very Low"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Low",
+                      "icon": "mdi:emoticon-sad-outline",
+                      "color": "{{ '#EF6C00' if is_state('select.will_mood_today', 'Low') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Low"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Okay",
+                      "icon": "mdi:emoticon-neutral-outline",
+                      "color": "{{ '#F9A825' if is_state('select.will_mood_today', 'Okay') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Okay"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Good",
+                      "icon": "mdi:emoticon-happy-outline",
+                      "color": "{{ '#43A047' if is_state('select.will_mood_today', 'Good') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Good"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    },
+                    {
+                      "type": "custom:mushroom-template-card",
+                      "primary": "Great",
+                      "icon": "mdi:emoticon-cool-outline",
+                      "color": "{{ '#00C853' if is_state('select.will_mood_today', 'Great') else 'disabled' }}",
+                      "layout": "vertical",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "select.select_option",
+                        "target": {
+                          "entity_id": "select.will_mood_today"
+                        },
+                        "data": {
+                          "option": "Great"
+                        }
+                      },
+                      "hold_action": {
+                        "action": "more-info"
+                      },
+                      "entity": "select.will_mood_today"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "text.will_mood_note",
+                  "name": "Note for latest check-in",
+                  "icon": "mdi:note-edit-outline",
+                  "secondary_info": "state",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "markdown",
+                  "text_only": true,
+                  "content": "Tap a mood once to log it. Tap **Note for latest check-in** to add context."
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Insights",
+                  "heading_style": "title",
+                  "icon": "mdi:chart-box-outline"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ states('sensor.will_mood_streak') | int(0) }} days",
+                  "secondary": "Current streak",
+                  "icon": "mdi:fire",
+                  "color": "deep-orange",
+                  "layout": "horizontal",
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ state_attr('sensor.will_mood_streak', 'longest_streak') | int(0) }} days",
+                  "secondary": "Longest streak",
+                  "icon": "mdi:trophy-outline",
+                  "color": "amber",
+                  "layout": "horizontal",
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ state_attr('sensor.will_mood_streak', 'consistency_7_days') | float(0) | round(0) }}%",
+                  "secondary": "7-day consistency",
+                  "icon": "mdi:calendar-week",
+                  "color": "blue",
+                  "layout": "horizontal",
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "primary": "{{ state_attr('sensor.will_mood_streak', 'consistency_28_days') | float(0) | round(0) }}%",
+                  "secondary": "28-day consistency",
+                  "icon": "mdi:calendar-month",
+                  "color": "indigo",
+                  "layout": "horizontal",
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:apexcharts-card",
+                  "header": {
+                    "show": true,
+                    "title": "Mood \u2014 past 28 days",
+                    "show_states": false,
+                    "colorize_states": true
+                  },
+                  "graph_span": "28d",
+                  "span": {
+                    "end": "day"
+                  },
+                  "yaxis": [
+                    {
+                      "min": 1,
+                      "max": 5,
+                      "decimals": 0,
+                      "apex_config": {
+                        "tickAmount": 4
+                      }
+                    }
+                  ],
+                  "apex_config": {
+                    "chart": {
+                      "height": 300,
+                      "toolbar": {
+                        "show": false
+                      }
+                    },
+                    "legend": {
+                      "show": true,
+                      "position": "top"
+                    },
+                    "stroke": {
+                      "curve": "smooth"
+                    },
+                    "markers": {
+                      "size": 4
+                    },
+                    "tooltip": {
+                      "shared": true
+                    }
+                  },
+                  "series": [
+                    {
+                      "entity": "sensor.will_mood_summary",
+                      "name": "Check-ins",
+                      "type": "scatter",
+                      "color": "#AB47BC",
+                      "data_generator": "return (entity.attributes.checkin_series || []).map((p) => [new Date(p.timestamp).getTime(), p.score]);"
+                    },
+                    {
+                      "entity": "sensor.will_mood_summary",
+                      "name": "Daily average",
+                      "type": "line",
+                      "color": "#42A5F5",
+                      "stroke_width": 4,
+                      "data_generator": "return (entity.attributes.daily_series || []).filter((p) => p.average !== null).map((p) => [new Date(p.timestamp).getTime(), p.average]);"
+                    },
+                    {
+                      "entity": "sensor.will_mood_summary",
+                      "name": "Daily low",
+                      "type": "line",
+                      "color": "#EF5350",
+                      "stroke_width": 1,
+                      "opacity": 0.45,
+                      "data_generator": "return (entity.attributes.daily_series || []).filter((p) => p.minimum !== undefined).map((p) => [new Date(p.timestamp).getTime(), p.minimum]);"
+                    },
+                    {
+                      "entity": "sensor.will_mood_summary",
+                      "name": "Daily high",
+                      "type": "line",
+                      "color": "#66BB6A",
+                      "stroke_width": 1,
+                      "opacity": 0.45,
+                      "data_generator": "return (entity.attributes.daily_series || []).filter((p) => p.maximum !== undefined).map((p) => [new Date(p.timestamp).getTime(), p.maximum]);"
+                    }
+                  ],
+                  "grid_options": {
+                    "columns": "full",
+                    "rows": 6
+                  }
+                }
+              ],
+              "column_span": 2
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Last seven days",
+                  "heading_style": "title",
+                  "icon": "mdi:calendar-week-outline"
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "entity": "sensor.will_mood_summary",
+                  "primary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[0] if days | count > 0 else {} %}\n{% set ts = d.get('timestamp') %}\n{{ as_datetime(ts).strftime('%a %-d %b') if ts else 'Day' }}",
+                  "secondary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[0] if days | count > 0 else {} %}\n{% set avg = d.get('average') %}\n{% set count = d.get('count', 0) | int(0) %}\n{% if avg is none %}\nNo check-in\n{% else %}\n{{ avg | round(1) }}/5 \u00b7 {{ count }} check-in{{ '' if count == 1 else 's' }}{% if d.get('minimum') != d.get('maximum') %} \u00b7 {{ d.get('minimum') }}\u2013{{ d.get('maximum') }}{% endif %} \u00b7 {{ 'mixed' if d.get('mixed') else d.get('direction', 'steady') }}\n{% endif %}",
+                  "icon": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[0] if days | count > 0 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}mdi:emoticon-cool-outline\n{% elif avg >= 3.5 %}mdi:emoticon-happy-outline\n{% elif avg >= 2.5 %}mdi:emoticon-neutral-outline\n{% elif avg >= 1.5 %}mdi:emoticon-sad-outline\n{% elif avg > 0 %}mdi:emoticon-dead-outline\n{% else %}mdi:emoticon-outline{% endif %}",
+                  "color": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[0] if days | count > 0 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}#00C853\n{% elif avg >= 3.5 %}#43A047\n{% elif avg >= 2.5 %}#F9A825\n{% elif avg >= 1.5 %}#EF6C00\n{% elif avg > 0 %}#C62828\n{% else %}disabled{% endif %}",
+                  "multiline_secondary": true,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "entity": "sensor.will_mood_summary",
+                  "primary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[1] if days | count > 1 else {} %}\n{% set ts = d.get('timestamp') %}\n{{ as_datetime(ts).strftime('%a %-d %b') if ts else 'Day' }}",
+                  "secondary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[1] if days | count > 1 else {} %}\n{% set avg = d.get('average') %}\n{% set count = d.get('count', 0) | int(0) %}\n{% if avg is none %}\nNo check-in\n{% else %}\n{{ avg | round(1) }}/5 \u00b7 {{ count }} check-in{{ '' if count == 1 else 's' }}{% if d.get('minimum') != d.get('maximum') %} \u00b7 {{ d.get('minimum') }}\u2013{{ d.get('maximum') }}{% endif %} \u00b7 {{ 'mixed' if d.get('mixed') else d.get('direction', 'steady') }}\n{% endif %}",
+                  "icon": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[1] if days | count > 1 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}mdi:emoticon-cool-outline\n{% elif avg >= 3.5 %}mdi:emoticon-happy-outline\n{% elif avg >= 2.5 %}mdi:emoticon-neutral-outline\n{% elif avg >= 1.5 %}mdi:emoticon-sad-outline\n{% elif avg > 0 %}mdi:emoticon-dead-outline\n{% else %}mdi:emoticon-outline{% endif %}",
+                  "color": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[1] if days | count > 1 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}#00C853\n{% elif avg >= 3.5 %}#43A047\n{% elif avg >= 2.5 %}#F9A825\n{% elif avg >= 1.5 %}#EF6C00\n{% elif avg > 0 %}#C62828\n{% else %}disabled{% endif %}",
+                  "multiline_secondary": true,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "entity": "sensor.will_mood_summary",
+                  "primary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[2] if days | count > 2 else {} %}\n{% set ts = d.get('timestamp') %}\n{{ as_datetime(ts).strftime('%a %-d %b') if ts else 'Day' }}",
+                  "secondary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[2] if days | count > 2 else {} %}\n{% set avg = d.get('average') %}\n{% set count = d.get('count', 0) | int(0) %}\n{% if avg is none %}\nNo check-in\n{% else %}\n{{ avg | round(1) }}/5 \u00b7 {{ count }} check-in{{ '' if count == 1 else 's' }}{% if d.get('minimum') != d.get('maximum') %} \u00b7 {{ d.get('minimum') }}\u2013{{ d.get('maximum') }}{% endif %} \u00b7 {{ 'mixed' if d.get('mixed') else d.get('direction', 'steady') }}\n{% endif %}",
+                  "icon": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[2] if days | count > 2 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}mdi:emoticon-cool-outline\n{% elif avg >= 3.5 %}mdi:emoticon-happy-outline\n{% elif avg >= 2.5 %}mdi:emoticon-neutral-outline\n{% elif avg >= 1.5 %}mdi:emoticon-sad-outline\n{% elif avg > 0 %}mdi:emoticon-dead-outline\n{% else %}mdi:emoticon-outline{% endif %}",
+                  "color": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[2] if days | count > 2 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}#00C853\n{% elif avg >= 3.5 %}#43A047\n{% elif avg >= 2.5 %}#F9A825\n{% elif avg >= 1.5 %}#EF6C00\n{% elif avg > 0 %}#C62828\n{% else %}disabled{% endif %}",
+                  "multiline_secondary": true,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "entity": "sensor.will_mood_summary",
+                  "primary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[3] if days | count > 3 else {} %}\n{% set ts = d.get('timestamp') %}\n{{ as_datetime(ts).strftime('%a %-d %b') if ts else 'Day' }}",
+                  "secondary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[3] if days | count > 3 else {} %}\n{% set avg = d.get('average') %}\n{% set count = d.get('count', 0) | int(0) %}\n{% if avg is none %}\nNo check-in\n{% else %}\n{{ avg | round(1) }}/5 \u00b7 {{ count }} check-in{{ '' if count == 1 else 's' }}{% if d.get('minimum') != d.get('maximum') %} \u00b7 {{ d.get('minimum') }}\u2013{{ d.get('maximum') }}{% endif %} \u00b7 {{ 'mixed' if d.get('mixed') else d.get('direction', 'steady') }}\n{% endif %}",
+                  "icon": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[3] if days | count > 3 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}mdi:emoticon-cool-outline\n{% elif avg >= 3.5 %}mdi:emoticon-happy-outline\n{% elif avg >= 2.5 %}mdi:emoticon-neutral-outline\n{% elif avg >= 1.5 %}mdi:emoticon-sad-outline\n{% elif avg > 0 %}mdi:emoticon-dead-outline\n{% else %}mdi:emoticon-outline{% endif %}",
+                  "color": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[3] if days | count > 3 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}#00C853\n{% elif avg >= 3.5 %}#43A047\n{% elif avg >= 2.5 %}#F9A825\n{% elif avg >= 1.5 %}#EF6C00\n{% elif avg > 0 %}#C62828\n{% else %}disabled{% endif %}",
+                  "multiline_secondary": true,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "entity": "sensor.will_mood_summary",
+                  "primary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[4] if days | count > 4 else {} %}\n{% set ts = d.get('timestamp') %}\n{{ as_datetime(ts).strftime('%a %-d %b') if ts else 'Day' }}",
+                  "secondary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[4] if days | count > 4 else {} %}\n{% set avg = d.get('average') %}\n{% set count = d.get('count', 0) | int(0) %}\n{% if avg is none %}\nNo check-in\n{% else %}\n{{ avg | round(1) }}/5 \u00b7 {{ count }} check-in{{ '' if count == 1 else 's' }}{% if d.get('minimum') != d.get('maximum') %} \u00b7 {{ d.get('minimum') }}\u2013{{ d.get('maximum') }}{% endif %} \u00b7 {{ 'mixed' if d.get('mixed') else d.get('direction', 'steady') }}\n{% endif %}",
+                  "icon": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[4] if days | count > 4 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}mdi:emoticon-cool-outline\n{% elif avg >= 3.5 %}mdi:emoticon-happy-outline\n{% elif avg >= 2.5 %}mdi:emoticon-neutral-outline\n{% elif avg >= 1.5 %}mdi:emoticon-sad-outline\n{% elif avg > 0 %}mdi:emoticon-dead-outline\n{% else %}mdi:emoticon-outline{% endif %}",
+                  "color": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[4] if days | count > 4 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}#00C853\n{% elif avg >= 3.5 %}#43A047\n{% elif avg >= 2.5 %}#F9A825\n{% elif avg >= 1.5 %}#EF6C00\n{% elif avg > 0 %}#C62828\n{% else %}disabled{% endif %}",
+                  "multiline_secondary": true,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "entity": "sensor.will_mood_summary",
+                  "primary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[5] if days | count > 5 else {} %}\n{% set ts = d.get('timestamp') %}\n{{ as_datetime(ts).strftime('%a %-d %b') if ts else 'Day' }}",
+                  "secondary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[5] if days | count > 5 else {} %}\n{% set avg = d.get('average') %}\n{% set count = d.get('count', 0) | int(0) %}\n{% if avg is none %}\nNo check-in\n{% else %}\n{{ avg | round(1) }}/5 \u00b7 {{ count }} check-in{{ '' if count == 1 else 's' }}{% if d.get('minimum') != d.get('maximum') %} \u00b7 {{ d.get('minimum') }}\u2013{{ d.get('maximum') }}{% endif %} \u00b7 {{ 'mixed' if d.get('mixed') else d.get('direction', 'steady') }}\n{% endif %}",
+                  "icon": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[5] if days | count > 5 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}mdi:emoticon-cool-outline\n{% elif avg >= 3.5 %}mdi:emoticon-happy-outline\n{% elif avg >= 2.5 %}mdi:emoticon-neutral-outline\n{% elif avg >= 1.5 %}mdi:emoticon-sad-outline\n{% elif avg > 0 %}mdi:emoticon-dead-outline\n{% else %}mdi:emoticon-outline{% endif %}",
+                  "color": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[5] if days | count > 5 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}#00C853\n{% elif avg >= 3.5 %}#43A047\n{% elif avg >= 2.5 %}#F9A825\n{% elif avg >= 1.5 %}#EF6C00\n{% elif avg > 0 %}#C62828\n{% else %}disabled{% endif %}",
+                  "multiline_secondary": true,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "custom:mushroom-template-card",
+                  "entity": "sensor.will_mood_summary",
+                  "primary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[6] if days | count > 6 else {} %}\n{% set ts = d.get('timestamp') %}\n{{ as_datetime(ts).strftime('%a %-d %b') if ts else 'Day' }}",
+                  "secondary": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[6] if days | count > 6 else {} %}\n{% set avg = d.get('average') %}\n{% set count = d.get('count', 0) | int(0) %}\n{% if avg is none %}\nNo check-in\n{% else %}\n{{ avg | round(1) }}/5 \u00b7 {{ count }} check-in{{ '' if count == 1 else 's' }}{% if d.get('minimum') != d.get('maximum') %} \u00b7 {{ d.get('minimum') }}\u2013{{ d.get('maximum') }}{% endif %} \u00b7 {{ 'mixed' if d.get('mixed') else d.get('direction', 'steady') }}\n{% endif %}",
+                  "icon": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[6] if days | count > 6 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}mdi:emoticon-cool-outline\n{% elif avg >= 3.5 %}mdi:emoticon-happy-outline\n{% elif avg >= 2.5 %}mdi:emoticon-neutral-outline\n{% elif avg >= 1.5 %}mdi:emoticon-sad-outline\n{% elif avg > 0 %}mdi:emoticon-dead-outline\n{% else %}mdi:emoticon-outline{% endif %}",
+                  "color": "{% set days = state_attr('sensor.will_mood_summary', 'seven_days') or [] %}\n{% set d = days[6] if days | count > 6 else {} %}\n{% set avg = d.get('average') | float(0) %}\n{% if avg >= 4.5 %}#00C853\n{% elif avg >= 3.5 %}#43A047\n{% elif avg >= 2.5 %}#F9A825\n{% elif avg >= 1.5 %}#EF6C00\n{% elif avg > 0 %}#C62828\n{% else %}disabled{% endif %}",
+                  "multiline_secondary": true,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "grid_options": {
+                    "columns": 6,
+                    "rows": 1
+                  }
+                }
+              ],
+              "column_span": 2
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Edit history",
+                  "heading_style": "title",
+                  "icon": "mdi:history"
+                },
+                {
+                  "type": "entities",
+                  "show_header_toggle": false,
+                  "entities": [
+                    {
+                      "entity": "select.will_mood_edit_entry",
+                      "name": "Check-in"
+                    },
+                    {
+                      "entity": "date.will_mood_edit_date",
+                      "name": "Logical date"
+                    },
+                    {
+                      "entity": "time.will_mood_edit_time",
+                      "name": "Time"
+                    },
+                    {
+                      "entity": "select.will_mood_edit_value",
+                      "name": "Mood"
+                    },
+                    {
+                      "entity": "text.will_mood_edit_note",
+                      "name": "Note"
+                    }
+                  ]
+                },
+                {
+                  "type": "grid",
+                  "columns": 2,
+                  "square": false,
+                  "cards": [
+                    {
+                      "type": "button",
+                      "entity": "button.will_mood_edit_save",
+                      "name": "Save",
+                      "icon": "mdi:content-save-outline",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "button.press",
+                        "target": {
+                          "entity_id": "button.will_mood_edit_save"
+                        }
+                      }
+                    },
+                    {
+                      "type": "button",
+                      "entity": "button.will_mood_edit_delete",
+                      "name": "Delete",
+                      "icon": "mdi:delete-outline",
+                      "tap_action": {
+                        "action": "perform-action",
+                        "perform_action": "button.press",
+                        "target": {
+                          "entity_id": "button.will_mood_edit_delete"
+                        },
+                        "confirmation": {
+                          "text": "Delete this mood check-in?"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Prompts & reminders",
+                  "heading_style": "title",
+                  "icon": "mdi:bell-outline"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.will_mood_context_prompts",
+                  "name": "Contextual prompts",
+                  "features": [
+                    {
+                      "type": "toggle"
+                    }
+                  ],
+                  "features_position": "inline"
+                },
+                {
+                  "type": "tile",
+                  "entity": "number.will_mood_context_cooldown",
+                  "name": "Context cooldown",
+                  "features": [
+                    {
+                      "type": "numeric-input",
+                      "style": "buttons"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.will_mood_reminders",
+                  "name": "Scheduled reminders",
+                  "features": [
+                    {
+                      "type": "toggle"
+                    }
+                  ],
+                  "features_position": "inline"
+                },
+                {
+                  "type": "tile",
+                  "entity": "time.will_mood_reminder_time",
+                  "name": "First reminder"
+                },
+                {
+                  "type": "tile",
+                  "entity": "datetime.will_mood_next_reminder",
+                  "name": "Next reminder"
+                },
+                {
+                  "type": "tile",
+                  "entity": "number.will_mood_repeat_count",
+                  "name": "Repeat count",
+                  "features": [
+                    {
+                      "type": "numeric-input",
+                      "style": "buttons"
+                    }
+                  ]
+                },
+                {
+                  "type": "tile",
+                  "entity": "number.will_mood_repeat_interval",
+                  "name": "Repeat interval",
+                  "features": [
+                    {
+                      "type": "numeric-input",
+                      "style": "buttons"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "badges": [
+            {
+              "type": "entity",
+              "entity": "switch.will_mood_context_prompts",
+              "show_name": true,
+              "show_state": false,
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              }
+            },
+            {
+              "type": "entity",
+              "entity": "switch.will_mood_reminders",
+              "show_name": true,
+              "show_state": false,
+              "tap_action": {
+                "action": "toggle"
+              },
+              "hold_action": {
+                "action": "more-info"
+              }
             }
           ]
         },
