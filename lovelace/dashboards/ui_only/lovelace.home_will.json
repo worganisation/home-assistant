@@ -11283,9 +11283,10 @@
                     {
                       "entity": "sensor.will_mood_summary",
                       "name": "Check-ins",
-                      "type": "scatter",
+                      "type": "line",
                       "color": "#AB47BC",
-                      "data_generator": "return (entity.attributes.checkin_series || []).map((p) => [new Date(p.timestamp).getTime(), p.score]);"
+                      "data_generator": "return (entity.attributes.checkin_series || []).map((p) => [new Date(p.timestamp).getTime(), p.score]);",
+                      "stroke_width": 0
                     },
                     {
                       "entity": "sensor.will_mood_summary",
@@ -11317,7 +11318,8 @@
                   "grid_options": {
                     "columns": "full",
                     "rows": 6
-                  }
+                  },
+                  "section_mode": true
                 }
               ],
               "column_span": 2
