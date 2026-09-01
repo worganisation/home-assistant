@@ -10896,6 +10896,607 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "grid",
+              "column_span": 1,
+              "cards": [
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "text.will_mood_note",
+                  "name": "Mood Notes",
+                  "secondary_info": "state",
+                  "grid_options": {
+                    "columns": 12,
+                    "rows": 1
+                  }
+                },
+                {
+                  "type": "heading",
+                  "heading": "Habits",
+                  "heading_style": "subtitle"
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 1
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_1_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_1_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_1_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 2
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_2_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_2_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_2_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 3
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_3_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_3_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_3_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 4
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_4_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_4_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_4_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 5
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_5_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_5_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_5_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 6
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_6_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_6_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_6_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 7
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_7_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_7_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_7_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 8
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_8_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_8_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_8_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 9
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_9_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_9_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_9_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_binary",
+                  "variables": [
+                    {
+                      "n": 10
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_10_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_10_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_10_type",
+                      "state": "binary"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 1
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_1_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_1_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_1_type",
+                      "state": "countable"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 2
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_2_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_2_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_2_type",
+                      "state": "countable"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 3
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_3_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_3_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_3_type",
+                      "state": "countable"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 4
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_4_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_4_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_4_type",
+                      "state": "countable"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 5
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_5_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_5_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_5_type",
+                      "state": "countable"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 6
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_6_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_6_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_6_type",
+                      "state": "countable"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 7
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_7_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_7_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_7_type",
+                      "state": "countable"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 8
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_8_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_8_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_8_type",
+                      "state": "countable"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 9
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_9_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_9_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_9_type",
+                      "state": "countable"
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:decluttering-card",
+                  "template": "habit_slot_countable",
+                  "variables": [
+                    {
+                      "n": 10
+                    },
+                    {
+                      "user": "will"
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_10_name",
+                      "state_not": "unknown"
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "text.will_habit_10_name",
+                      "state_not": ""
+                    },
+                    {
+                      "condition": "state",
+                      "entity": "select.will_habit_10_type",
+                      "state": "countable"
+                    }
+                  ]
+                }
+              ]
             }
           ],
           "cards": [],
