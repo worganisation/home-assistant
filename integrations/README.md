@@ -2,7 +2,7 @@
 
 ## Automation
 
-<details><summary><h3>Entities (236)</h3></summary>
+<details><summary><h3>Entities (237)</h3></summary>
 
 <details><summary><code>/automation/auto-reload-complete</code></summary>
 
@@ -3087,6 +3087,19 @@ File: [`automation/sensor/spare_room_climate_sensor_temperature/sync_radiator_tr
 - Mode: `single`
 
 File: [`automation/sensor/storage_cc_scratch_qbt_disk_used_percentage_notify_and_clear.yaml`](entities/automation/sensor/storage_cc_scratch_qbt_disk_used_percentage_notify_and_clear.yaml)
+</details>
+
+<details><summary><code>/sensor/student-loan-balance/notify-will</code></summary>
+
+**Entity ID: `automation.sensor_student_loan_balance_notify_will`**
+
+> Notify Will when the student loan balance changes
+
+- Alias: /sensor/student-loan-balance/notify-will
+- ID: `sensor_student_loan_balance_notify_will`
+- Mode: `single`
+
+File: [`automation/sensor/student_loan_balance/notify_will.yaml`](entities/automation/sensor/student_loan_balance/notify_will.yaml)
 </details>
 
 <details><summary><code>/sensor/vic-s-office-climate-sensor-temperature/sync-radiator-trv</code></summary>
