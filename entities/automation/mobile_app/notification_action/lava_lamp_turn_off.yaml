@@ -1,0 +1,20 @@
+---
+alias: /mobile-app/notification-action/lava-lamp-turn-off
+
+id: mobile_app_notification_action_lava_lamp_turn_off
+
+description: Turn off the lounge lava lamp from its notification action
+
+mode: single
+
+trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: LAVA_LAMP_TURN_OFF
+
+action:
+  - alias: Turn off the lava lamp
+    action: switch.turn_off
+    target:
+      entity_id: switch.lava_lamp
