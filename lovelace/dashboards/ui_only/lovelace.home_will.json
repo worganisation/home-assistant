@@ -9206,7 +9206,7 @@
                 },
                 {
                   "type": "custom:mini-graph-card",
-                  "name": "28 Day History",
+                  "name": "30 Day History",
                   "entities": [
                     {
                       "entity": "sensor.pollen_forecast_5_day_max",
@@ -9223,7 +9223,7 @@
                       "show_points": false
                     }
                   ],
-                  "hours_to_show": 672,
+                  "hours_to_show": 720,
                   "points_per_hour": 0.041666666666666664,
                   "line_width": 2,
                   "height": 140,
