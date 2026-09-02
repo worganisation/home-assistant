@@ -3166,7 +3166,7 @@ File: [`automation/sensor/will_s_pixel_6_pro_weight/update.yaml`](entities/autom
 
 **Entity ID: `automation.sensor_wills_macbook_pro_internal_battery_level_low_battery_alert`**
 
-> Notify Will when his personal MacBook Pro battery falls below the configured threshold
+> Notify Will when his personal MacBook Pro battery falls below the configured threshold and clear the notification when it rises above the threshold
 
 - Alias: /sensor/wills-macbook-pro-internal-battery-level/low-battery-alert
 - ID: `sensor_wills_macbook_pro_internal_battery_level_low_battery_alert`

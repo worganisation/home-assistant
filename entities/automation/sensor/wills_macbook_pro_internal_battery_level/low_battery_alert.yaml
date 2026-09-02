@@ -3,7 +3,9 @@ alias: /sensor/wills-macbook-pro-internal-battery-level/low-battery-alert
 
 id: sensor_wills_macbook_pro_internal_battery_level_low_battery_alert
 
-description: Notify Will when his personal MacBook Pro battery falls below the configured threshold
+description: >-
+  Notify Will when his personal MacBook Pro battery falls below the configured threshold and clear
+  the notification when it rises above the threshold
 
 mode: single
 
@@ -13,16 +15,31 @@ trigger:
   - platform: numeric_state
     entity_id: sensor.wills_macbook_pro_internal_battery_level
     below: input_number.will_s_macbook_pro_low_battery_alert_threshold
+    id: alert
+
+  - platform: numeric_state
+    entity_id: sensor.wills_macbook_pro_internal_battery_level
+    above: input_number.will_s_macbook_pro_low_battery_alert_threshold
+    id: clear
 
 action:
-  - action: script.notify_will
-    continue_on_error: true
-    data:
-      title: MacBook Pro Battery Low
-      message: >-
-        MacBook Pro battery has fallen to
-        {{ states('sensor.wills_macbook_pro_internal_battery_level') | int(0) }}%.
-      notification_id: wills_macbook_pro_low_battery
-      mobile_notification_icon: mdi:battery-alert
-      group: device-battery-alerts
-      url: /home-will/control-panel-diagnostics
+  - if: "{{ trigger.id == 'clear' }}"
+    then:
+      - action: script.notify_will
+        continue_on_error: true
+        data:
+          clear_notification: true
+          notification_id: wills_macbook_pro_low_battery
+          message: clear_notification
+    else:
+      - action: script.notify_will
+        continue_on_error: true
+        data:
+          title: MacBook Pro Battery Low
+          message: >-
+            MacBook Pro battery has fallen to
+            {{ states('sensor.wills_macbook_pro_internal_battery_level') | int(0) }}%.
+          notification_id: wills_macbook_pro_low_battery
+          mobile_notification_icon: mdi:battery-alert
+          group: device-battery-alerts
+          url: /home-will/control-panel-diagnostics
