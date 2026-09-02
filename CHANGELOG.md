@@ -2,6 +2,26 @@
 
 <!-- version list -->
 
+## v3.35.0 (2026-09-02)
+
+### Bug Fixes
+
+- Suppress basement light alert in visitor mode
+  ([#2896](https://github.com/worganisation/home-assistant/pull/2896),
+  [`29a86f3`](https://github.com/worganisation/home-assistant/commit/29a86f367666f4c67a2973ed83b20ff0c715e083))
+
+### Chores
+
+- Remove Bayesian presence sensors
+  ([#2888](https://github.com/worganisation/home-assistant/pull/2888),
+  [`ca54bf2`](https://github.com/worganisation/home-assistant/commit/ca54bf24b505afd2d686081d418909cc0039fbaf))
+
+### Features
+
+- Alert on low MacBook battery ([#2897](https://github.com/worganisation/home-assistant/pull/2897),
+  [`5587198`](https://github.com/worganisation/home-assistant/commit/5587198c6b0bb98b5e23624ccee9c8475c8ca315))
+
+
 ## v3.34.0 (2026-09-01)
 
 ### Bug Fixes
