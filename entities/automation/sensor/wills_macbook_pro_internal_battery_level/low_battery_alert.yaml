@@ -1,0 +1,30 @@
+---
+alias: /sensor/wills-macbook-pro-internal-battery-level/low-battery-alert
+
+id: sensor_wills_macbook_pro_internal_battery_level_low_battery_alert
+
+description: Notify Will when his personal MacBook Pro battery falls below the configured threshold
+
+mode: single
+
+max_exceeded: silent
+
+trigger:
+  - platform: numeric_state
+    entity_id: sensor.wills_macbook_pro_internal_battery_level
+    below: input_number.will_s_macbook_pro_low_battery_alert_threshold
+
+action:
+  - action: script.notify_will
+    continue_on_error: true
+    data:
+      title: MacBook Pro Battery Low
+      message: >-
+        Your MacBook Pro battery has fallen to
+        {{ states('sensor.wills_macbook_pro_internal_battery_level') | int(0) }}%, below the
+        {{ states('input_number.will_s_macbook_pro_low_battery_alert_threshold') | int(20) }}%
+        alert threshold.
+      notification_id: wills_macbook_pro_low_battery
+      mobile_notification_icon: mdi:battery-alert
+      group: device-battery-alerts
+      url: /home-will/control-panel-diagnostics

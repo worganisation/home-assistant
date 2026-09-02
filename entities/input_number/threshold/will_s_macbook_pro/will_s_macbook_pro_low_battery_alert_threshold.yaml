@@ -1,0 +1,16 @@
+---
+name: "Will's MacBook Pro: Low Battery Alert Threshold"
+
+icon: mdi:battery-alert
+
+initial: 20
+
+min: 5
+
+max: 50
+
+step: 1
+
+mode: box
+
+unit_of_measurement: "%"
