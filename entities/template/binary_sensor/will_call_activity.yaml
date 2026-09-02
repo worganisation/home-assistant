@@ -1,0 +1,46 @@
+---
+name: Will Call Activity
+
+unique_id: will_call_activity
+
+icon: mdi:phone-in-talk-outline
+
+# This is intentionally conservative: microphone/camera activity is useful for
+# suppressing interruptions but is not strong enough to become a journal fact.
+state: >-
+  {% set unavailable = ['unknown', 'unavailable', 'none', ''] %}
+  {% set phone = states('sensor.will_s_pixel_6_pro_phone_state') | lower %}
+  {% set microphones = [
+    states('sensor.wills_macbook_pro_active_audio_input') | lower,
+    states('sensor.wills_work_macbook_pro_active_audio_input') | lower,
+  ] %}
+  {% set cameras = [
+    states('sensor.wills_macbook_pro_active_camera') | lower,
+    states('sensor.wills_work_macbook_pro_active_camera') | lower,
+  ] %}
+
+  {{
+    phone in ['ringing', 'offhook']
+    or microphones | reject('in', unavailable + ['inactive']) | list | count > 0
+    or cameras | reject('in', unavailable + ['inactive']) | list | count > 0
+  }}
+
+attributes:
+  signal_role: receptivity_blocker_only
+
+  interpretation: >-
+    Conservative proxy; active microphone or camera does not prove a call.
+
+  phone_state: "{{ states('sensor.will_s_pixel_6_pro_phone_state') }}"
+
+  personal_microphone: >-
+    {{ states('sensor.wills_macbook_pro_active_audio_input') }}
+
+  work_microphone: >-
+    {{ states('sensor.wills_work_macbook_pro_active_audio_input') }}
+
+  personal_camera: >-
+    {{ states('sensor.wills_macbook_pro_active_camera') }}
+
+  work_camera: >-
+    {{ states('sensor.wills_work_macbook_pro_active_camera') }}

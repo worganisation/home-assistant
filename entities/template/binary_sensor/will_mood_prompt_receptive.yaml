@@ -1,0 +1,113 @@
+---
+name: Will Mood Prompt Receptive
+
+unique_id: will_mood_prompt_receptive
+
+icon: mdi:message-check-outline
+
+# These phone signals are the always-available safety inputs. If any of them
+# cannot be evaluated, optional contextual prompts must fail closed. Laptop
+# focus/call signals are deliberately not availability dependencies because an
+# offline laptop is normal rather than evidence that Will cannot be prompted.
+availability: >-
+  {% set invalid = ['unknown', 'unavailable', 'none', ''] %}
+  {% set critical = [
+    states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') | lower,
+    states('sensor.will_s_pixel_6_pro_phone_state') | lower,
+    states('sensor.will_s_pixel_6_pro_detected_activity') | lower,
+  ] %}
+
+  {{ critical | select('in', invalid) | list | count == 0 }}
+
+state: >-
+  {% set invalid = ['unknown', 'unavailable', 'none', ''] %}
+  {% set hour = now().hour %}
+  {% set dnd = states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') | lower %}
+  {% set phone = states('sensor.will_s_pixel_6_pro_phone_state') | lower %}
+  {% set activity = states('sensor.will_s_pixel_6_pro_detected_activity') | lower %}
+  {% set critical = [dnd, phone, activity] %}
+
+  {{
+    critical | select('in', invalid) | list | count == 0
+    and 8 <= hour < 22
+    and dnd not in ['alarms_only', 'priority_only', 'total_silence']
+    and phone not in ['ringing', 'offhook']
+    and activity not in ['in_vehicle', 'walking', 'running', 'on_bicycle']
+    and not is_state('binary_sensor.will_call_activity', 'on')
+    and not is_state('binary_sensor.will_exercising', 'on')
+    and not is_state('binary_sensor.wills_macbook_pro_focus', 'on')
+  }}
+
+attributes:
+  blocking_reasons: >-
+    {% set invalid = ['unknown', 'unavailable', 'none', ''] %}
+    {% set ns = namespace(values=[]) %}
+    {% set dnd = states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') | lower %}
+    {% set phone = states('sensor.will_s_pixel_6_pro_phone_state') | lower %}
+    {% set activity = states('sensor.will_s_pixel_6_pro_detected_activity') | lower %}
+
+    {% if dnd in invalid or phone in invalid or activity in invalid %}
+      {% set ns.values = ns.values + ['source_uncertainty'] %}
+    {% endif %}
+    {% if not 8 <= now().hour < 22 %}
+      {% set ns.values = ns.values + ['quiet_hours'] %}
+    {% endif %}
+    {% if dnd in ['alarms_only', 'priority_only', 'total_silence'] %}
+      {% set ns.values = ns.values + ['do_not_disturb'] %}
+    {% endif %}
+    {% if phone in ['ringing', 'offhook'] %}
+      {% set ns.values = ns.values + ['phone_call'] %}
+    {% endif %}
+    {% if activity in ['in_vehicle', 'walking', 'running', 'on_bicycle'] %}
+      {% set ns.values = ns.values + ['moving'] %}
+    {% endif %}
+    {% if is_state('binary_sensor.will_call_activity', 'on') %}
+      {% set ns.values = ns.values + ['call'] %}
+    {% endif %}
+    {% if is_state('binary_sensor.will_exercising', 'on') %}
+      {% set ns.values = ns.values + ['exercise'] %}
+    {% endif %}
+    {% if is_state('binary_sensor.wills_macbook_pro_focus', 'on') %}
+      {% set ns.values = ns.values + ['focus'] %}
+    {% endif %}
+
+    {{ ns.values }}
+
+  uncertain_sources: >-
+    {% set invalid = ['unknown', 'unavailable', 'none', ''] %}
+    {% set ns = namespace(values=[]) %}
+    {% if states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') | lower in invalid %}
+      {% set ns.values = ns.values + ['do_not_disturb'] %}
+    {% endif %}
+    {% if states('sensor.will_s_pixel_6_pro_phone_state') | lower in invalid %}
+      {% set ns.values = ns.values + ['phone_state'] %}
+    {% endif %}
+    {% if states('sensor.will_s_pixel_6_pro_detected_activity') | lower in invalid %}
+      {% set ns.values = ns.values + ['phone_activity'] %}
+    {% endif %}
+
+    {{ ns.values }}
+
+  do_not_disturb: >-
+    {{ states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') }}
+
+  phone_state: "{{ states('sensor.will_s_pixel_6_pro_phone_state') }}"
+
+  phone_activity: >-
+    {{ states('sensor.will_s_pixel_6_pro_detected_activity') }}
+
+  call_activity: "{{ states('binary_sensor.will_call_activity') }}"
+
+  exercising: "{{ states('binary_sensor.will_exercising') }}"
+
+  focus: "{{ states('binary_sensor.wills_macbook_pro_focus') }}"
+
+  active_window: 08:00–22:00
+
+  sleep_coverage: >-
+    Deferred: Android sleep confidence is noisy and sleep duration is currently zero;
+    the active window and DND state are conservative proxies.
+
+  meeting_coverage: >-
+    Conservative: microphone/camera activity blocks prompts; raw calendar state is
+    excluded because all-day events can keep it on.
