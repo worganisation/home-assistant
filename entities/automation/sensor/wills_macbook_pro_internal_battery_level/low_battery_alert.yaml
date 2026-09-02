@@ -20,10 +20,8 @@ action:
     data:
       title: MacBook Pro Battery Low
       message: >-
-        Your MacBook Pro battery has fallen to
-        {{ states('sensor.wills_macbook_pro_internal_battery_level') | int(0) }}%, below the
-        {{ states('input_number.will_s_macbook_pro_low_battery_alert_threshold') | int(20) }}%
-        alert threshold.
+        MacBook Pro battery has fallen to
+        {{ states('sensor.wills_macbook_pro_internal_battery_level') | int(0) }}%.
       notification_id: wills_macbook_pro_low_battery
       mobile_notification_icon: mdi:battery-alert
       group: device-battery-alerts
