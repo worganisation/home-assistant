@@ -5020,8 +5020,8 @@ File: [`input_number/threshold/vic_s_office_fan/vic_s_office_fan_voc_index_thres
 **Entity ID: `input_number.will_s_macbook_pro_low_battery_alert_threshold`**
 
 - Icon: [`mdi:battery-alert`](https://pictogrammers.com/library/mdi/icon/battery-alert/)
-- Max: 50
-- Min: 5
+- Max: 100
+- Min: 1
 - Mode: `box`
 - Unit Of Measurement: %
 
