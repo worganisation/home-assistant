@@ -2,7 +2,7 @@
 
 ## Automation
 
-<details><summary><h3>Entities (239)</h3></summary>
+<details><summary><h3>Entities (240)</h3></summary>
 
 <details><summary><code>/automation/auto-reload-complete</code></summary>
 
@@ -3162,6 +3162,19 @@ File: [`automation/sensor/will_s_office_climate_sensor_temperature/sync_radiator
 File: [`automation/sensor/will_s_pixel_6_pro_weight/update.yaml`](entities/automation/sensor/will_s_pixel_6_pro_weight/update.yaml)
 </details>
 
+<details><summary><code>/sensor/wills-macbook-pro-internal-battery-level/low-battery-alert</code></summary>
+
+**Entity ID: `automation.sensor_wills_macbook_pro_internal_battery_level_low_battery_alert`**
+
+> Notify Will when his personal MacBook Pro battery falls below the configured threshold and clear the notification when it rises above the threshold
+
+- Alias: /sensor/wills-macbook-pro-internal-battery-level/low-battery-alert
+- ID: `sensor_wills_macbook_pro_internal_battery_level_low_battery_alert`
+- Mode: `single`
+
+File: [`automation/sensor/wills_macbook_pro_internal_battery_level/low_battery_alert.yaml`](entities/automation/sensor/wills_macbook_pro_internal_battery_level/low_battery_alert.yaml)
+</details>
+
 <details><summary><code>/switch/air-freshener/timeout</code></summary>
 
 **Entity ID: `automation.switch_air_freshener_timeout`**
@@ -4451,7 +4464,7 @@ File: [`input_datetime/rain_flash_cooldown.yaml`](entities/input_datetime/rain_f
 
 ## Input Number
 
-<details><summary><h3>Entities (76)</h3></summary>
+<details><summary><h3>Entities (77)</h3></summary>
 
 <details><summary><strong>Air Purifier | Quiet Mode Ceiling</strong></summary>
 
@@ -5000,6 +5013,19 @@ File: [`input_number/threshold/vic_s_office_fan/vic_s_office_fan_purifier_speed.
 - Mode: `box`
 
 File: [`input_number/threshold/vic_s_office_fan/vic_s_office_fan_voc_index_threshold.yaml`](entities/input_number/threshold/vic_s_office_fan/vic_s_office_fan_voc_index_threshold.yaml)
+</details>
+
+<details><summary><strong>Will's MacBook Pro: Low Battery Alert Threshold</strong></summary>
+
+**Entity ID: `input_number.will_s_macbook_pro_low_battery_alert_threshold`**
+
+- Icon: [`mdi:battery-alert`](https://pictogrammers.com/library/mdi/icon/battery-alert/)
+- Max: 100
+- Min: 1
+- Mode: `box`
+- Unit Of Measurement: %
+
+File: [`input_number/threshold/will_s_macbook_pro/will_s_macbook_pro_low_battery_alert_threshold.yaml`](entities/input_number/threshold/will_s_macbook_pro/will_s_macbook_pro_low_battery_alert_threshold.yaml)
 </details>
 
 <details><summary><strong>Will's Office Fan: PM2.5 Threshold</strong></summary>
