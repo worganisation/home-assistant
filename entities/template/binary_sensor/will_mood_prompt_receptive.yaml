@@ -5,14 +5,31 @@ unique_id: will_mood_prompt_receptive
 
 icon: mdi:message-check-outline
 
+# These phone signals are the always-available safety inputs. If any of them
+# cannot be evaluated, optional contextual prompts must fail closed. Laptop
+# focus/call signals are deliberately not availability dependencies because an
+# offline laptop is normal rather than evidence that Will cannot be prompted.
+availability: >-
+  {% set invalid = ['unknown', 'unavailable', 'none', ''] %}
+  {% set critical = [
+    states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') | lower,
+    states('sensor.will_s_pixel_6_pro_phone_state') | lower,
+    states('sensor.will_s_pixel_6_pro_detected_activity') | lower,
+  ] %}
+
+  {{ critical | select('in', invalid) | list | count == 0 }}
+
 state: >-
+  {% set invalid = ['unknown', 'unavailable', 'none', ''] %}
   {% set hour = now().hour %}
-  {% set dnd = states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') %}
-  {% set phone = states('sensor.will_s_pixel_6_pro_phone_state') %}
-  {% set activity = states('sensor.will_s_pixel_6_pro_detected_activity') %}
+  {% set dnd = states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') | lower %}
+  {% set phone = states('sensor.will_s_pixel_6_pro_phone_state') | lower %}
+  {% set activity = states('sensor.will_s_pixel_6_pro_detected_activity') | lower %}
+  {% set critical = [dnd, phone, activity] %}
 
   {{
-    8 <= hour < 22
+    critical | select('in', invalid) | list | count == 0
+    and 8 <= hour < 22
     and dnd not in ['alarms_only', 'priority_only', 'total_silence']
     and phone not in ['ringing', 'offhook']
     and activity not in ['in_vehicle', 'walking', 'running', 'on_bicycle']
@@ -23,11 +40,15 @@ state: >-
 
 attributes:
   blocking_reasons: >-
+    {% set invalid = ['unknown', 'unavailable', 'none', ''] %}
     {% set ns = namespace(values=[]) %}
-    {% set dnd = states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') %}
-    {% set phone = states('sensor.will_s_pixel_6_pro_phone_state') %}
-    {% set activity = states('sensor.will_s_pixel_6_pro_detected_activity') %}
+    {% set dnd = states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') | lower %}
+    {% set phone = states('sensor.will_s_pixel_6_pro_phone_state') | lower %}
+    {% set activity = states('sensor.will_s_pixel_6_pro_detected_activity') | lower %}
 
+    {% if dnd in invalid or phone in invalid or activity in invalid %}
+      {% set ns.values = ns.values + ['source_uncertainty'] %}
+    {% endif %}
     {% if not 8 <= now().hour < 22 %}
       {% set ns.values = ns.values + ['quiet_hours'] %}
     {% endif %}
@@ -48,6 +69,21 @@ attributes:
     {% endif %}
     {% if is_state('binary_sensor.wills_macbook_pro_focus', 'on') %}
       {% set ns.values = ns.values + ['focus'] %}
+    {% endif %}
+
+    {{ ns.values }}
+
+  uncertain_sources: >-
+    {% set invalid = ['unknown', 'unavailable', 'none', ''] %}
+    {% set ns = namespace(values=[]) %}
+    {% if states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') | lower in invalid %}
+      {% set ns.values = ns.values + ['do_not_disturb'] %}
+    {% endif %}
+    {% if states('sensor.will_s_pixel_6_pro_phone_state') | lower in invalid %}
+      {% set ns.values = ns.values + ['phone_state'] %}
+    {% endif %}
+    {% if states('sensor.will_s_pixel_6_pro_detected_activity') | lower in invalid %}
+      {% set ns.values = ns.values + ['phone_activity'] %}
     {% endif %}
 
     {{ ns.values }}
