@@ -16,6 +16,11 @@ trigger:
     for:
       minutes: 2
 
+condition:
+  - condition: template
+    value_template: >-
+      {{ trigger.from_state.state not in ['unavailable', 'unknown'] }}
+
 action:
   - variables:
       power: "{{ trigger.to_state.state }}"
