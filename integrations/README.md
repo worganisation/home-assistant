@@ -1383,7 +1383,7 @@ File: [`automation/label/restore_state_after_room_vacancy/state_change.yaml`](en
 
 **Entity ID: `automation.light_basement_lights_unoccupied_alert`**
 
-> Warn Will when a kitchen or dining-area light has remained on while Frigate has continuously reported no person. This automation is advisory and never changes lights or automations itself. Holiday presence simulation suppresses the alert, because those lights are turned on deliberately while the house is empty.
+> Warn Will when a kitchen or dining-area light has remained on while Frigate has continuously reported no person. This automation is advisory and never changes lights or automations itself. Holiday presence simulation and Visitor Mode suppress the alert, because those lights may be turned on deliberately while normal occupancy automations are disabled.
 
 - Alias: /light/basement-lights/unoccupied-alert
 - ID: `light_basement_lights_unoccupied_alert`
