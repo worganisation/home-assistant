@@ -1,0 +1,22 @@
+---
+name: Will Exercising
+
+unique_id: will_exercising
+
+icon: mdi:run
+
+state: >-
+  {{
+    is_state('input_boolean.lounge_lights_exercise_mode', 'on')
+    or is_state('binary_sensor.joroto_exercise_bike_pedalling', 'on')
+    or states('sensor.will_s_pixel_6_pro_detected_activity')
+      in ['running', 'on_bicycle']
+  }}
+
+attributes:
+  exercise_mode: "{{ states('input_boolean.lounge_lights_exercise_mode') }}"
+
+  exercise_bike: "{{ states('binary_sensor.joroto_exercise_bike_pedalling') }}"
+
+  phone_activity: >-
+    {{ states('sensor.will_s_pixel_6_pro_detected_activity') }}

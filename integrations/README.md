@@ -4451,7 +4451,7 @@ File: [`input_datetime/rain_flash_cooldown.yaml`](entities/input_datetime/rain_f
 
 ## Input Number
 
-<details><summary><h3>Entities (76)</h3></summary>
+<details><summary><h3>Entities (77)</h3></summary>
 
 <details><summary><strong>Air Purifier | Quiet Mode Ceiling</strong></summary>
 
@@ -5367,6 +5367,18 @@ File: [`input_number/topaz_sr10/topaz_sr10_volume_level.yaml`](entities/input_nu
 - Unit Of Measurement: %
 
 File: [`input_number/visitor_mode_brightness.yaml`](entities/input_number/visitor_mode_brightness.yaml)
+</details>
+
+<details><summary><strong>Will Mood Event Prompt Limit</strong></summary>
+
+**Entity ID: `input_number.will_mood_event_prompt_limit`**
+
+- Icon: [`mdi:message-badge-outline`](https://pictogrammers.com/library/mdi/icon/message-badge-outline/)
+- Max: 10
+- Min: 1
+- Mode: `box`
+
+File: [`input_number/will_mood_event_prompt_limit.yaml`](entities/input_number/will_mood_event_prompt_limit.yaml)
 </details>
 
 <details><summary><strong>Will's Office | Grow Light: Daytime Light Level Threshold</strong></summary>
@@ -8630,7 +8642,7 @@ File: [`shell_command/toggle_pr_label.yaml`](entities/shell_command/toggle_pr_la
 
 ## Template
 
-<details><summary><h3>Entities (103)</h3></summary>
+<details><summary><h3>Entities (106)</h3></summary>
 
 <details><summary><strong>Bank Holiday</strong></summary>
 
@@ -8833,6 +8845,33 @@ File: [`template/binary_sensor/weekend.yaml`](entities/template/binary_sensor/we
 - Icon: [`mdi:badge-account`](https://pictogrammers.com/library/mdi/icon/badge-account/)
 
 File: [`template/binary_sensor/will_at_work.yaml`](entities/template/binary_sensor/will_at_work.yaml)
+</details>
+
+<details><summary><strong>Will Call Activity</strong></summary>
+
+**Entity ID: `binary_sensor.will_call_activity`**
+
+- Icon: [`mdi:phone-in-talk-outline`](https://pictogrammers.com/library/mdi/icon/phone-in-talk-outline/)
+
+File: [`template/binary_sensor/will_call_activity.yaml`](entities/template/binary_sensor/will_call_activity.yaml)
+</details>
+
+<details><summary><strong>Will Exercising</strong></summary>
+
+**Entity ID: `binary_sensor.will_exercising`**
+
+- Icon: [`mdi:run`](https://pictogrammers.com/library/mdi/icon/run/)
+
+File: [`template/binary_sensor/will_exercising.yaml`](entities/template/binary_sensor/will_exercising.yaml)
+</details>
+
+<details><summary><strong>Will Mood Prompt Receptive</strong></summary>
+
+**Entity ID: `binary_sensor.will_mood_prompt_receptive`**
+
+- Icon: [`mdi:message-check-outline`](https://pictogrammers.com/library/mdi/icon/message-check-outline/)
+
+File: [`template/binary_sensor/will_mood_prompt_receptive.yaml`](entities/template/binary_sensor/will_mood_prompt_receptive.yaml)
 </details>
 
 <details><summary><strong>Will's MacBook Pro Docked</strong></summary>

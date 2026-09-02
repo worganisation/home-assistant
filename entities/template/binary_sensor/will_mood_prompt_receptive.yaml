@@ -1,0 +1,77 @@
+---
+name: Will Mood Prompt Receptive
+
+unique_id: will_mood_prompt_receptive
+
+icon: mdi:message-check-outline
+
+state: >-
+  {% set hour = now().hour %}
+  {% set dnd = states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') %}
+  {% set phone = states('sensor.will_s_pixel_6_pro_phone_state') %}
+  {% set activity = states('sensor.will_s_pixel_6_pro_detected_activity') %}
+
+  {{
+    8 <= hour < 22
+    and dnd not in ['alarms_only', 'priority_only', 'total_silence']
+    and phone not in ['ringing', 'offhook']
+    and activity not in ['in_vehicle', 'walking', 'running', 'on_bicycle']
+    and not is_state('binary_sensor.will_call_activity', 'on')
+    and not is_state('binary_sensor.will_exercising', 'on')
+    and not is_state('binary_sensor.wills_macbook_pro_focus', 'on')
+  }}
+
+attributes:
+  blocking_reasons: >-
+    {% set ns = namespace(values=[]) %}
+    {% set dnd = states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') %}
+    {% set phone = states('sensor.will_s_pixel_6_pro_phone_state') %}
+    {% set activity = states('sensor.will_s_pixel_6_pro_detected_activity') %}
+
+    {% if not 8 <= now().hour < 22 %}
+      {% set ns.values = ns.values + ['quiet_hours'] %}
+    {% endif %}
+    {% if dnd in ['alarms_only', 'priority_only', 'total_silence'] %}
+      {% set ns.values = ns.values + ['do_not_disturb'] %}
+    {% endif %}
+    {% if phone in ['ringing', 'offhook'] %}
+      {% set ns.values = ns.values + ['phone_call'] %}
+    {% endif %}
+    {% if activity in ['in_vehicle', 'walking', 'running', 'on_bicycle'] %}
+      {% set ns.values = ns.values + ['moving'] %}
+    {% endif %}
+    {% if is_state('binary_sensor.will_call_activity', 'on') %}
+      {% set ns.values = ns.values + ['call'] %}
+    {% endif %}
+    {% if is_state('binary_sensor.will_exercising', 'on') %}
+      {% set ns.values = ns.values + ['exercise'] %}
+    {% endif %}
+    {% if is_state('binary_sensor.wills_macbook_pro_focus', 'on') %}
+      {% set ns.values = ns.values + ['focus'] %}
+    {% endif %}
+
+    {{ ns.values }}
+
+  do_not_disturb: >-
+    {{ states('sensor.will_s_pixel_6_pro_do_not_disturb_sensor') }}
+
+  phone_state: "{{ states('sensor.will_s_pixel_6_pro_phone_state') }}"
+
+  phone_activity: >-
+    {{ states('sensor.will_s_pixel_6_pro_detected_activity') }}
+
+  call_activity: "{{ states('binary_sensor.will_call_activity') }}"
+
+  exercising: "{{ states('binary_sensor.will_exercising') }}"
+
+  focus: "{{ states('binary_sensor.wills_macbook_pro_focus') }}"
+
+  active_window: 08:00–22:00
+
+  sleep_coverage: >-
+    Deferred: Android sleep confidence is noisy and sleep duration is currently zero;
+    the active window and DND state are conservative proxies.
+
+  meeting_coverage: >-
+    Conservative: microphone/camera activity blocks prompts; raw calendar state is
+    excluded because all-day events can keep it on.

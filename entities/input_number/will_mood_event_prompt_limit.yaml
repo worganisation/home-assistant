@@ -1,0 +1,14 @@
+---
+name: Will Mood Event Prompt Limit
+
+icon: mdi:message-badge-outline
+
+min: 1
+
+max: 10
+
+step: 1
+
+initial: 2
+
+mode: box
